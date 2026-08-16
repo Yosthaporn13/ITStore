@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายการสินค้า - ITS</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- นำเข้า Font Awesome สำหรับใช้ไอคอนต่างๆ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+    <style>
+        /* 🌟 โค้ดใหม่: กล่องใส่รูปแต่ละรูป */
+        /*------------------------------- แบนเนอร์โปรโมชั่น ----------------------- */
+
+        .banner-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 140, 255, 0.35),
+                0 0 25px rgba(0, 140, 255, 0.2);
+            border: 1px solid #b3d9ff;
+        }
+
+        /* 🌟 โค้ดใหม่: กล่องรางเลื่อนสำหรับจัดเรียงรูปภาพแนวนอน */
+        .banner-track {
+            display: flex;
+            /* ทำให้กล่องรูปเรียงต่อกันเป็นแนวนอน */
+            width: 100%;
+            transition: transform 0.5s ease-in-out;
+            /* เตรียมพร้อมสำหรับเอฟเฟกต์เวลาเลื่อนรูปภาพ */
+        }
+
+        /* 🌟 โค้ดใหม่: กล่องใส่รูปแต่ละรูป */
+        .banner-slide {
+            min-width: 100%;
+            /* บังคับให้แต่ละรูปกว้างเท่าหน้าต่างแบนเนอร์เป๊ะๆ */
+        }
+
+        /* ส่วนของรูปภาพแบนเนอร์ (ปรับเล็กน้อย) */
+        .banner-slide img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* =========================================
+   Layout & โครงสร้างรวม
+========================================= */
+        .layout-container {
+            display: flex;
+            max-width: 1300px;
+            /* ขยายให้กว้างขึ้นเพื่อรองรับ 4 คอลัมน์ */
+            margin: 30px auto;
+            gap: 30px;
+            /* เพิ่มระยะห่างระหว่างเมนูกับสินค้า */
+            padding: 0 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* =========================================
+   เมนูหมวดหมู่ด้านซ้าย (กรอบสี + เงาตามสีไอคอน)
+========================================= */
+        .sidebar-category {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .category-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* ตั้งค่าเริ่มต้นของปุ่ม */
+        .category-list li {
+            padding: 12px 20px;
+            background-color: #fff;
+            /* ดึงตัวแปร --btn-color มาทำเป็นสีกรอบ */
+            border: 1px solid var(--btn-color);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            /* ดึงตัวแปร --glow-color มาทำเงาจางๆ ด้านหลัง */
+            box-shadow: 0 4px 10px var(--glow-color);
+        }
+
+        /* ตั้งค่าสีไอคอนให้ตรงกับกรอบ */
+        .category-list li i {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+            color: var(--btn-color);
+        }
+
+        /* เอฟเฟกต์ตอนนำเมาส์ไปชี้ (Hover) ปุ่มจะลอยขึ้นนิดนึงและเงาชัดขึ้น */
+        .category-list li:hover {
+            background-color: #fafafa;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px var(--glow-color);
+        }
+
+        /* สถานะเมื่อถูกคลิกเลือก (Active) */
+        .category-list li.active {
+            border: 2px solid var(--btn-color);
+            font-weight: bold;
+            background-color: #fff;
+            /* เพิ่มแสงฟุ้งรอบๆ ให้ดูเด่นขึ้นเมื่อถูกเลือก */
+            box-shadow: 0 4px 12px var(--glow-color), 0 0 10px var(--glow-color);
+        }
+
+        /* =========================================
+   พื้นที่แสดงสินค้า & ตัวกรอง
+========================================= */
+        .products-area {
+            flex-grow: 1;
+        }
+
+        .filter-bar {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #ff0000;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            padding: 10px 20px;
+            border-radius: 30px;
+            width: 100%;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            margin-left: 10px;
+            width: 100%;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        /* =========================================
+   การ์ดสินค้า (จัดเป็น 4 คอลัมน์)
+========================================= */
+        .products-grid {
+            display: grid;
+            /* บังคับให้แสดง 4 คอลัมน์ พอดีกับโครงสร้าง */
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .product-img-wrap {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .product-img-wrap img {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .product-title {
+            font-size: 14px;
+            color: #333;
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-specs {
+            font-size: 12px;
+            color: #777;
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+
+        .product-specs p {
+            margin: 0 0 4px 0;
+        }
+
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .btn-add-cart {
+            background: #fff;
+            border: 1px solid #333;
+            color: #333;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            /* เปลี่ยนปุ่มบวกให้เป็นวงกลมให้เข้ากับความมน */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add-cart:hover {
+            background: #333;
+            color: #fff;
+        }
+
+        /* รองรับหน้าจอขนาดเล็ก */
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .layout-container {
+                flex-direction: column;
+            }
+
+            .sidebar-category {
+                width: 100%;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+
+
+        /* เพิ่ม/แก้ไข คลาสนี้เพื่อให้กล่องรายละเอียดสินค้าขยายเต็มพื้นที่ที่เหลือ */
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            /* บังคับให้ขยายเต็มพื้นที่ ดันส่วนล่างสุดลงไปให้สุดขอบ */
+        }
+
+        /* ของเดิมมีอยู่แล้ว แค่เช็คว่ามี flex-grow: 1; เพื่อดันกล่องให้ลงไปล่างสุด */
+        .product-specs {
+            font-size: 12px;
+            color: #777;
+            flex-grow: 1;
+            /* ดันส่วน .product-bottom ลงไปด้านล่าง */
+            margin-bottom: 15px;
+        }
+
+        /* เปลี่ยนสีปุ่มเป็นสีแดง */
+        .btn-add-cart {
+            background: #fff;
+            border: 1px solid #ff0808;
+            /* เปลี่ยนสีกรอบเป็นสีแดง */
+            color: #ff0808;
+            /* เปลี่ยนสีเครื่องหมายบวกเป็นสีแดง */
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        /* เอฟเฟกต์ตอนเอาเมาส์ชี้ปุ่ม */
+        .btn-add-cart:hover {
+            background: #ff0808;
+            /* พื้นหลังเปลี่ยนเป็นสีแดง */
+            color: #fff;
+            /* เครื่องหมายบวกเปลี่ยนเป็นสีขาว */
+            box-shadow: 0 2px 8px rgba(255, 8, 8, 0.3);
+            /* เพิ่มเงาสีแดงจางๆ ให้ดูสวยขึ้น */
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+    <!-- 1. แถบสีฟ้าด้านบน (Topbar) -->
+    <div class="topbar" style="position: relative;">
+        <!-- โลโก้ -->
+        <div class="text-logo">ITS</div>
+
+        <!-- ช่องค้นหา -->
+        <div class="search-container">
+            <input type="text" class="input-search" placeholder="ค้นหาสินค้าที่นี่...">
+            <button class="button-search-mini">ค้นหา</button>
+        </div>
+
+        <!-- กลุ่มปุ่มด้านขวา (ตะกร้าสินค้า + เข้าสู่ระบบ) -->
+        <div class="user-actions">
+            <a href="cart.html" class="cart-icon-btn"
+                style="position: relative; text-decoration: none; color: inherit;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <!-- วงกลมแดงแจ้งเตือนจำนวนสินค้า -->
+                <span id="cart-count"
+                    style="position: absolute; top: -8px; right: -8px; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; display: none;">0</span>
+            </a>
+            <button class="login-btn">เข้าสู่ระบบ</button>
+        </div>
+    </div>
+
+    <!-- 2. แถบเมนูด้านล่าง (Topbar 1) -->
+    <div class="topbar1">
+
+        <!-- ส่วนที่ 1: ฝั่งซ้าย (ปุ่มหมวดหมู่สินค้า) -->
+        <div class="menu-left">
+            <div class="button-menu">หมวดหมู่สินค้า</div>
+        </div>
+
+        <!-- ส่วนที่ 2: ตรงกลาง (เมนูหลัก) -->
+        <div class="menu-center">
+            <nav class="nav-links">
+                <a href="index.html">หน้าแรก</a>
+                <a href="pcset.html">คอมพิวเตอร์เซต</a>
+                <a href="products.html">สินค้า</a>
+            </nav>
+        </div>
+
+        <!-- ส่วนที่ 3: ฝั่งขวา (เมนูติดต่อ/เกี่ยวกับ) -->
+        <div class="menu-right">
+            <nav class="nav-links">
+                <a href="#">ติดต่อเรา</a>
+                <a href="#">เกี่ยวกับเรา</a>
+            </nav>
+        </div>
+
+    </div>
+
+    <!-- 3. ส่วนเนื้อหาหลักและแบนเนอร์ (ให้อยู่ตรงกลางจอ) -->
+    <div class="content-wrapper">
+        <div class="banner-container">
+            <!-- รูปภาพแบนเนอร์ -->
+            <div class="banner-track">
+                <!-- รูปที่ 1 -->
+                <div class="banner-slide">
+                    <img src="photo/proter/p1.png" >
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+        <!-- พื้นที่คอนเทนต์หลัก -->
+        <div class="layout-container">
+
+            <!-- แถบเมนูหมวดหมู่ด้านซ้าย -->
+            <!-- แถบเมนูหมวดหมู่ด้านซ้าย -->
+            <aside class="sidebar-category">
+                <ul class="category-list">
+                    <!-- หมวด All -->
+                    <li class="active" data-category="all"
+                        style="--btn-color: #f44336; --glow-color: rgba(244, 67, 54, 0.15);">
+                        <i class="fas fa-th-large"></i> ทั้งหมด (All)
+                    </li>
+
+                    <!-- หมวดอื่นๆ เรียงตามสีไอคอน -->
+                    <li data-category="cpu" style="--btn-color: #e53935; --glow-color: rgba(229, 57, 53, 0.15);">
+                        <i class="fas fa-microchip"></i> CPU
+                    </li>
+                    <li data-category="mainboard" style="--btn-color: #ff9800; --glow-color: rgba(255, 152, 0, 0.15);">
+                        <i class="fas fa-chess-board"></i> Mainboard
+                    </li>
+                    <li data-category="vga" style="--btn-color: #ffb300; --glow-color: rgba(255, 179, 0, 0.15);">
+                        <i class="fas fa-tv"></i> VGA Card
+                    </li>
+                    <li data-category="memory" style="--btn-color: #8bc34a; --glow-color: rgba(139, 195, 74, 0.15);">
+                        <i class="fas fa-memory"></i> Memory
+                    </li>
+                    <li data-category="hdd" style="--btn-color: #4caf50; --glow-color: rgba(76, 175, 80, 0.15);">
+                        <i class="fas fa-hdd"></i> Harddisk
+                    </li>
+                    <li data-category="ssd" style="--btn-color: #00bcd4; --glow-color: rgba(0, 188, 212, 0.15);">
+                        <i class="fas fa-sd-card"></i> Solid State Drive
+                    </li>
+                    <li data-category="case" style="--btn-color: #2196f3; --glow-color: rgba(33, 150, 243, 0.15);">
+                        <i class="fas fa-box"></i> Case
+                    </li>
+                    <li data-category="psu" style="--btn-color: #009688; --glow-color: rgba(0, 150, 136, 0.15);">
+                        <i class="fas fa-plug"></i> Power Supply
+                    </li>
+                    <li data-category="cooler" style="--btn-color: #9c27b0; --glow-color: rgba(156, 39, 176, 0.15);">
+                        <i class="fas fa-fan"></i> CPU Cooler
+                    </li>
+                    <li data-category="monitor" style="--btn-color: #3f51b5; --glow-color: rgba(63, 81, 181, 0.15);">
+                        <i class="fas fa-desktop"></i> Monitor
+                    </li>
+                    <li data-category="keyboard" style="--btn-color: #607d8b; --glow-color: rgba(96, 125, 139, 0.15);">
+                        <i class="fas fa-keyboard"></i> Keyboard
+                    </li>
+                    <li data-category="mouse" style="--btn-color: #424242; --glow-color: rgba(66, 66, 66, 0.15);">
+                        <i class="fas fa-mouse"></i> Mouse
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- พื้นที่แสดงสินค้าด้านขวา -->
+            <section class="products-area">
+
+                <!-- แถบเครื่องมือค้นหา/ตัวกรองด้านบน -->
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search" style="color: #ff0808;"></i>
+
+                        <input type="text" placeholder="ค้นหาสินค้า...">
+                    </div>
+                </div>
+
+                <!-- ตารางแสดงสินค้า (4 คอลัมน์) -->
+                <div class="products-grid">
+
+                    <!-- การ์ดสินค้า 1 -->
+                    <div class="product-card" data-category="cpu">
+                        <div class="product-img-wrap">
+                            <img src="photo/cpu/AMD AM4 RYZEN 5 5500 3.6GHz 6C 12T.jpg" alt="CPU AMD Ryzen 5">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">CPU AMD AM4 RYZEN 5 5500 3.6GHz 6C 12T</h4>
+                            <div class="product-specs">
+                                <p>Cores/Threads: 6 Cores / 12 Threads</p>
+                                <p>Base Frequency: 3.6 GHz</p>
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿3,290.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 2 -->
+                    <div class="product-card" data-category="cpu">
+                        <div class="product-img-wrap">
+                            <img src="photo/cpu/AMD AM4 RYZEN 5 5600 3.5GHz 6C 12T.jpg" alt="CPU Intel Core i5">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">CPU AMD AM4 RYZEN 5 5600 3.5GHz 6C 12T</h4>
+                            <div class="product-specs">
+                                <p>Cores/Threads: 6 Cores / 12 Threads</p>
+                                <p>Base Frequency: 3.5 GHz</p>
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿4,590.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 3 -->
+                    <div class="product-card" data-category="cpu">
+                        <div class="product-img-wrap">
+                            <img src="photo/cpu/INTEL 1851 CORE ULTRA 5 225F 3.3GHz 10C 10T (3Y).jpg"
+                                alt="CPU AMD Ryzen 7">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">CPU INTEL 1851 CORE ULTRA 5 225F 3.3GHz 10C 10T (3Y)</h4>
+                            <div class="product-specs">
+                                <p>Cores/Threads: 10 (6P+4E) Cores / 10 Threads</p>
+                                <p>Base Frequency: 3.3 GHz</p>
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿5,290.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 4 -->
+                    <div class="product-card" data-category="cpu">
+                        <div class="product-img-wrap">
+                            <img src="photo/cpu/INTEL 1700 CORE I7-14700KF 3.4GHz 20C 28T.jpg" alt="CPU Intel Core i3">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">CPU INTEL 1700 CORE I7-14700KF 3.4GHz 20C 28T</h4>
+                            <div class="product-specs">
+                                <p>Cores/Threads: 20 (8P+12E) Cores / 28 Threads</p>
+                                <p>Base Frequency: 3.4 GHz</p>
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿12,990.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 5 -->
+                    <div class="product-card" data-category="mainboard">
+                        <div class="product-img-wrap">
+                            <img src="photo/MAINBOARD/MAINBOARD (เมนบอร์ด)(AM4) MSI A520M-A-PRO (3Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">MAINBOARD (AM4) MSI A520M-A-PRO (3Y)</h4>
+                            <div class="product-specs">
+                                <p>CPU Socket: AM4</p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿1,390.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- การ์ดสินค้า 6 -->
+                    <div class="product-card" data-category="mainboard">
+                        <div class="product-img-wrap">
+                            <img src="photo/MAINBOARD/MAINBOARD (เมนบอร์ด)(1700) ASUS PRIME H610M-CS D4 (3Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">MAINBOARD (เมนบอร์ด)(1700) ASUS PRIME H610M-CS D4 (3Y)</h4>
+                            <div class="product-specs">
+                                <p>CPU Socket: LGA 1700</p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿2,220.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 7 -->
+                    <div class="product-card" data-category="vga">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/VGA/VGA(การ์ดจอ) COLORFUL IGAME GEFORCE RTX 5060 ULTRA OC - 8GB GDDR7 (3Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">VGA(การ์ดจอ) COLORFUL IGAME GEFORCE RTX 5060 ULTRA OC - 8GB GDDR7
+                                (3Y)</h4>
+                            <div class="product-specs">
+                                <p>Memory Size: 8GB GDDR7</p>
+                                <p>Power Requirement: 550 Watt</p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿17,990.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 8 -->
+                    <div class="product-card" data-category="vga">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/VGA/VGA(การ์ดจอ) ASUS PRIME RADEON RX 9060 XT O8G - 8GB GDDR6 (PRIME-RX9060XT-O8G) (3Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">VGA(การ์ดจอ) ASUS PRIME RADEON RX 9060 XT O8G - 8GB GDDR6
+                                (PRIME-RX9060XT-O8G) (3Y)</h4>
+                            <div class="product-specs">
+                                <p>Memory Size: 8GB GDDR7</p>
+                                <p>Power Requirement: 550 Watt</p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿15,990.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- การ์ดสินค้า 9 -->
+                    <div class="product-card" data-category="memory">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/RAM/RAM (แรม) COLORFIRE MEOW 32GB (16x2) DDR5 6000MHz (RAM-CLF-MEWD516G6) (LT).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">RAM (แรม) COLORFIRE MEOW 32GB (16x2) DDR5 6000MHz
+                                (RAM-CLF-MEWD516G6) (LT)</h4>
+                            <div class="product-specs">
+                                <p>Speed: 6000MHz</p>
+                                <p>Memory Type: DDR5</p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿17,490.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 10 -->
+                    <div class="product-card" data-category="memory">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/RAM/RAM (แรม) APACER NOX 8GB (8x1) DDR4 3200MHz BLACK (AH4U08G32C28YMBAA-1) (LT).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">RAM (แรม) APACER NOX 8GB (8x1) DDR4 3200MHz BLACK
+                                (AH4U08G32C28YMBAA-1) (LT)</h4>
+                            <div class="product-specs">
+                                <p>Speed: 3200MHz</p>
+                                <p>Memory Type: DDR4</p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿2,790.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 11 -->
+                    <div class="product-card" data-category="memory">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/RAM/RAM (แรม) KINGSTON FURY BEAST RGB EXPO 64GB (32x2) DDR5 5600MHz (KF556C36BBEAK2-64) (LT).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">RAM (แรม) KINGSTON FURY BEAST RGB EXPO 64GB (32x2) DDR5 5600MHz
+                                (KF556C36BBEAK2-64) (LT)</h4>
+                            <div class="product-specs">
+                                <p>Speed: 5600MHz</p>
+                                <p>Memory Type: DDR5</p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿40,990.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 12 -->
+                    <div class="product-card" data-category="hdd">
+                        <div class="product-img-wrap">
+                            <img src="photo/HDD/2 TB 3.5 HDD WD BLUE - 7200RPM SATA3 (WD20EZBX).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">2 TB 3.5" HDD WD BLUE - 7200RPM SATA3 (WD20EZBX)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿4,990</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 13 -->
+                    <div class="product-card" data-category="ssd">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/SSD/512 GB SSD (เอสเอสดี) HIKSEMI CITY E100 - 2.5 INCH SATA3 (HS-SSD-E100-512G).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">512 GB SSD (เอสเอสดี) HIKSEMI CITY E100 - 2.5 INCH SATA3
+                                (HS-SSD-E100-512G)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿3,190</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 14 -->
+                    <div class="product-card" data-category="ssd">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/M.2/M.2 (เอสเอสดี) LEXAR NQ790 1TB PCIeNVMe GEN4x4 (LNQ790X001T-RNNNG) (5Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">M.2 (เอสเอสดี) LEXAR NQ790 1TB PCIe/NVMe GEN4x4
+                                (LNQ790X001T-RNNNG) (5Y)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿6,290.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 15 -->
+                    <div class="product-card" data-category="case">
+                        <div class="product-img-wrap">
+                            <img src="photo/Case/CASE (เคส) iHAVECPU IHC 401TG (WHITE)(ATX) (1Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">CASE (เคส) iHAVECPU IHC 401TG (WHITE)(ATX) (1Y)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿1,390.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 16 -->
+                    <div class="product-card" data-category="case">
+                        <div class="product-img-wrap">
+                            <img src="photo/Case/CASE (เคส) ASUS ROG HYPERION GR701 (BLACK)(E-ATX) (2Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">CASE (เคส) ASUS ROG HYPERION GR701 (BLACK)(E-ATX) (2Y)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿15,900.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 17 -->
+                    <div class="product-card" data-category="case">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/Case/CASE (เคส) HYTE Y70 HOSHIMACHI SUISEI LIMITED EDITION (E-ATX) (3Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">CASE (เคส) HYTE Y70 HOSHIMACHI SUISEI LIMITED EDITION (E-ATX) (3Y)
+                            </h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿10,990.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 18 -->
+                    <div class="product-card" data-category="psu">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/PSU/PSU (อุปกรณ์จ่ายไฟ) THERMALRIGHT SGFX850 BLACK - 850W (80+ GOLD) (5Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">PSU (อุปกรณ์จ่ายไฟ) THERMALRIGHT SGFX850 BLACK - 850W (80+ GOLD)
+                                (5Y)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿4,590.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 19 -->
+                    <div class="product-card" data-category="cooler">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/CPU Cools/AIR COOLER (ซิงค์ลม) OCYPUS x iHAVECPU DELTA A40 ELITE DUAL FAN ARGB (WHITE) (2Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">AIR COOLER (ซิงค์ลม) OCYPUS x iHAVECPU DELTA A40 ELITE DUAL FAN
+                                ARGB (WHITE) (2Y)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿990.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 20 -->
+                    <div class="product-card" data-category="cooler">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/CPU Cools/AIR COOLER (ซิงค์ลม) OCYPUS x iHAVECPU DELTA A40 ARGB (BLACK) (2Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">AIR COOLER (ซิงค์ลม) OCYPUS x iHAVECPU DELTA A40 ARGB (BLACK) (2Y)
+                            </h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿890.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 21 -->
+                    <div class="product-card" data-category="monitor">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/monitor/MONITOR (จอมอนิเตอร์) LENOVO LEGION R24S - 23.8 IPS FHD 144Hz (3Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">MONITOR (จอมอนิเตอร์) LENOVO LEGION R24S - 23.8 IPS FHD 144Hz (3Y)
+                            </h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿2,950.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 22 -->
+                    <div class="product-card" data-category="monitor">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/monitor/MONITOR (จอมอนิเตอร์) VIEWSONIC VX3480-2K-PRO - 34 VA UWQHD 2K 165Hz (3Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">MONITOR (จอมอนิเตอร์) VIEWSONIC VX3480-2K-PRO - 34 VA UWQHD 2K
+                                165Hz (3Y)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿8,990.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 23 -->
+                    <div class="product-card" data-category="keyboard">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/KEYBOARD/KEYBOARD (คีย์บอร์ด) CORSAIR K65 PLUS WIRELESS 75% MLX FUSION TACTILE SW (BLACK) (CH-91D441F.jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">KEYBOARD (คีย์บอร์ด) CORSAIR K65 PLUS WIRELESS 75% MLX FUSION
+                                TACTILE SW (BLACK)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿5,990.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 24 -->
+                    <div class="product-card" data-category="keyboard">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/KEYBOARD/KEYBOARD (คีย์บอร์ด) AULA HERO68 HE SIDE PRINTED (GRADIENT PURPLE) NEPTUNE MNT SWITCH (EN) (2Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">KEYBOARD (คีย์บอร์ด) AULA HERO68 HE SIDE PRINTED (GRADIENT PURPLE)
+                                NEPTUNE MNT SWITCH (EN) (2Y)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿1,950.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 25 -->
+                    <div class="product-card" data-category="keyboard">
+                        <div class="product-img-wrap">
+                            <img
+                                src="photo/KEYBOARD/KEYBOARD (คีย์บอร์ด) ONIKUMA HANE MT706 81-KEY 3 MODE (LINEAR AXIS SWITCH) (WHITE).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">KEYBOARD (คีย์บอร์ด) ONIKUMA HANE MT706 81-KEY 3 MODE (LINEAR AXIS
+                                SWITCH) (WHITE)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿1,790.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 26 -->
+                    <div class="product-card" data-category="mouse">
+                        <div class="product-img-wrap">
+                            <img src="photo/mouse/MOUSE (เมาส์) ONIKUMA OKAMI WIRED GAMING MOUSE BLACK (2Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">MOUSE (เมาส์) ONIKUMA OKAMI WIRED GAMING MOUSE : BLACK (2Y)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿290.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ดสินค้า 27 -->
+                    <div class="product-card" data-category="mouse">
+                        <div class="product-img-wrap">
+                            <img src="photo/mouse/MOUSE (เมาส์) RAZER BASILISK V3 PRO WHITE (2Y).jpg">
+                        </div>
+                        <div class="product-details">
+                            <h4 class="product-title">MOUSE (เมาส์) RAZER BASILISK V3 PRO WHITE (2Y)</h4>
+                            <div class="product-specs">
+                                <p></p>
+                                <p></p>
+
+                            </div>
+                            <div class="product-bottom">
+                                <span class="product-price">฿4,890.00</span>
+                                <button class="btn-add-cart"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </section>
+
+        </div>
+
+
+
+        <<script>
+    // ==========================================
+    // 1. ระบบตัวกรองหมวดหมู่สินค้า
+    // ==========================================
+    const categoryItems = document.querySelectorAll('.category-list li');
+    const productCards = document.querySelectorAll('.product-card');
+
+    categoryItems.forEach(item => {
+        item.addEventListener('click', function () {
+            // ลบคลาส active ออกจากทุกปุ่มก่อน
+            categoryItems.forEach(li => li.classList.remove('active'));
+            // เพิ่มคลาส active ให้ปุ่มที่คลิก
+            this.classList.add('active');
+            
+            const selectedCategory = this.getAttribute('data-category');
+
+            productCards.forEach(card => {
+                const productCategory = card.getAttribute('data-category');
+                if (selectedCategory === 'all' || selectedCategory === productCategory) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // ==========================================
+    // 2. ระบบตะกร้าสินค้า (Add to Cart)
+    // ==========================================
+    const addCartButtons = document.querySelectorAll('.btn-add-cart');
+
+    function updateCartBadge() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let totalItems = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
+        const badge = document.getElementById('cart-count');
+
+        if (badge) {
+            if (totalItems > 0) {
+                badge.style.display = 'block';
+                badge.innerText = totalItems;
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    }
+
+    // เรียกใช้อัปเดตตัวเลขทันทีที่เปิดหน้าเว็บ
+    updateCartBadge();
+
+    addCartButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const card = this.closest('.product-card');
+            const title = card.querySelector('.product-title').innerText;
+            const priceText = card.querySelector('.product-price').innerText;
+            const imgSrc = card.querySelector('.product-img-wrap img').src;
+
+            const price = parseFloat(priceText.replace(/[^0-9.-]+/g, ""));
+
+            const product = {
+                name: title,
+                price: price,
+                img: imgSrc,
+                qty: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingProductIndex = cart.findIndex(item => item.name === product.name);
+
+            if (existingProductIndex > -1) {
+                cart[existingProductIndex].qty += 1;
+            } else {
+                cart.push(product);
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // อัปเดตตัวเลขทันทีหลังจากเพิ่มสินค้า
+            updateCartBadge();
+            alert(`เพิ่ม "${title}" ลงในตะกร้าเรียบร้อยแล้ว!`);
+        });
+    });
+
+    // ==========================================
+    // 3. ระบบเลื่อนแบนเนอร์อัตโนมัติ (Slider)
+    // ==========================================
+    let slideIndex = 0;
+    function autoSlide() {
+        const track = document.querySelector('.banner-track');
+        const slides = document.querySelectorAll('.banner-track img'); 
+        
+        if (slides.length > 1 && track) { 
+            slideIndex++;
+            if (slideIndex >= slides.length) { 
+                slideIndex = 0; 
+            }
+            const offset = -slideIndex * 100;
+            track.style.transform = `translateX(${offset}%)`;
+            track.style.transition = 'transform 0.5s ease-in-out';
+        }
+    }
+    // สั่งให้เลื่อนทุกๆ 3 วินาที
+    setInterval(autoSlide, 3000); 
+
+</script>
+
+</body>
+
+</html>

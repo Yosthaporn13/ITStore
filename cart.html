@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITStore - ตะกร้าสินค้า</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: #f5f6f8;
+            color: #333333;
+        }
+
+        .topbar {
+            background-color: #008cff;
+            color: #ffffff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 90px;
+        }
+
+        .text-logo {
+            font-size: 50px;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 50px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 500px;
+            height: 40px;
+        }
+
+        .input-search {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            color: #333333;
+            padding: 5px 80px 5px 20px;
+            border: 2px solid #a5d4ff;
+            border-radius: 50px;
+            outline: none;
+        }
+
+        .button-search-mini {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            width: 70px;
+            height: 30px;
+            background-color: #0084ff;
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-right: 20px;
+        }
+
+        .cart-icon-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45px;
+            height: 45px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 50px;
+            padding: 8px 25px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .topbar1 {
+            background-color: #ffffff;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #cecece;
+        }
+
+        .button-menu {
+            width: 200px;
+            height: 40px;
+            background-color: #ddf0ff;
+            color: #3aa6ff;
+            border: 2px solid #3aa6ff;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333333;
+            font-size: 16px;
+        }
+
+        .cart-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            display: flex;
+            gap: 20px;
+            padding: 0 20px;
+            align-items: flex-start;
+        }
+
+        .cart-left {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .step {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .step.active {
+            background-color: #008cff;
+            color: white;
+        }
+
+        .step.inactive {
+            color: #888;
+            border: 1px solid #ddd;
+        }
+
+        .step-line {
+            width: 50px;
+            height: 2px;
+            background-color: #ddd;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            gap: 20px;
+        }
+
+        .item-image img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .item-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+            min-width: 150px;
+        }
+
+        .price-container {
+            text-align: right;
+        }
+
+        .current-price {
+            display: block;
+            font-size: 18px;
+            color: #008cff;
+            font-weight: bold;
+        }
+
+        .old-price {
+            display: block;
+            font-size: 13px;
+            color: #aaa;
+            text-decoration: line-through;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: #f9f9f9;
+            border: none;
+            width: 35px;
+            height: 35px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .qty-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .qty-input {
+            width: 40px;
+            height: 35px;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            outline: none;
+        }
+
+        .del-btn {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .del-btn:hover {
+            color: #ff3333;
+        }
+
+        .empty-cart-msg {
+            display: none;
+            text-align: center;
+            padding: 50px;
+            background: white;
+            border-radius: 10px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .cart-right {
+            flex: 1;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .total-price {
+            color: #008cff;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background-color: #008cff;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. แถบสีฟ้าด้านบน (Topbar) -->
+    <div class="topbar" style="position: relative;">
+        <!-- โลโก้ -->
+        <div class="text-logo">ITS</div>
+
+        <!-- ช่องค้นหา -->
+        <div class="search-container">
+            <input type="text" class="input-search" placeholder="ค้นหาสินค้าที่นี่...">
+            <button class="button-search-mini">ค้นหา</button>
+        </div>
+
+        <!-- กลุ่มปุ่มด้านขวา (ตะกร้าสินค้า + เข้าสู่ระบบ) -->
+        <div class="user-actions">
+            <a href="cart.html" class="cart-icon-btn"
+                style="position: relative; text-decoration: none; color: inherit;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <!-- วงกลมแดงแจ้งเตือนจำนวนสินค้า -->
+                <span id="cart-count"
+                    style="position: absolute; top: -8px; right: -8px; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; display: none;">0</span>
+            </a>
+            <button class="login-btn">เข้าสู่ระบบ</button>
+        </div>
+    </div>
+
+    <!-- 2. แถบเมนูด้านล่าง (Topbar 1) -->
+    <div class="topbar1">
+
+        <!-- ส่วนที่ 1: ฝั่งซ้าย (ปุ่มหมวดหมู่สินค้า) -->
+        <div class="menu-left">
+            <div class="button-menu">หมวดหมู่สินค้า</div>
+        </div>
+
+        <!-- ส่วนที่ 2: ตรงกลาง (เมนูหลัก) -->
+        <div class="menu-center">
+            <nav class="nav-links">
+                <a href="index.html">หน้าแรก</a>
+                <a href="pcset.html">คอมพิวเตอร์เซต</a>
+                <a href="products.html">สินค้า</a>
+            </nav>
+        </div>
+
+        <!-- ส่วนที่ 3: ฝั่งขวา (เมนูติดต่อ/เกี่ยวกับ) -->
+        <div class="menu-right">
+            <nav class="nav-links">
+                <a href="#">ติดต่อเรา</a>
+                <a href="#">เกี่ยวกับเรา</a>
+            </nav>
+        </div>
+
+    </div>
+
+    <main class="cart-container">
+        <div class="cart-left">
+            <div class="steps-container">
+                <div class="step active">1. ตะกร้าสินค้า</div>
+                <div class="step-line"></div>
+                <div class="step inactive">2. รายละเอียด</div>
+                <div class="step-line"></div>
+                <div class="step inactive">3. ชำระเงิน</div>
+            </div>
+
+            <!-- ข้อความเมื่อไม่มีสินค้า -->
+            <div class="empty-cart-msg" id="empty-cart-msg">
+                ตะกร้าสินค้าของคุณว่างเปล่า<br>
+                <a href="index.html"
+                    style="color: #008cff; text-decoration: none; font-size: 16px; margin-top: 10px; display: inline-block;">เลือกซื้อสินค้าต่อเลย!</a>
+            </div>
+
+            <!-- คอนเทนเนอร์ที่จะแสดงรายการสินค้าที่ดึงมาจาก localStorage -->
+            <div id="cart-items-wrapper"></div>
+        </div>
+
+       <div class="cart-right">
+    <!-- ส่วนที่เพิ่มใหม่: ช่องกรอกโค้ดส่วนลด -->
+    <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+        <input type="text" id="discount-code" placeholder="กรอกโค้ดส่วนลด IT02" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; outline: none; font-family: 'Kanit', sans-serif;">
+        <button onclick="applyDiscount()" style="background-color: #333; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-family: 'Kanit', sans-serif;">ใช้โค้ด</button>
+    </div>
+    <!-- ข้อความแจ้งเตือนสถานะโค้ด -->
+    <div id="discount-msg" style="font-size: 13px; margin-top: -15px; margin-bottom: 15px; display: none;"></div>
+
+    <div class="summary-title">ยอดรวมทั้งหมด</div>
+    <div class="summary-row">
+        <span>ค่าจัดส่ง:</span>
+        <span>฿0.00</span>
+    </div>
+    
+    <!-- ส่วนที่เพิ่มใหม่: แถวแสดงส่วนลด (จะซ่อนไว้ก่อนถ้ายังไม่มีส่วนลด) -->
+    <div class="summary-row" id="discount-row" style="display: none; color: #ff3333; font-weight: bold;">
+        <span>ส่วนลด (15%):</span>
+        <span id="discount-amount">-฿0.00</span>
+    </div>
+
+    <div class="summary-row">
+        <span>ราคาก่อนภาษี:</span>
+        <span id="sub-total">฿0.00</span>
+    </div>
+    <div class="summary-row">
+        <span>ภาษี VAT 7%:</span>
+        <span id="vat-total">฿0.00</span>
+    </div>
+    <div class="summary-total">
+        <span>ยอดรวม <br><small style="font-weight: normal; font-size: 12px; color: #888;">(รวมภาษีมูลค่าเพิ่ม)</small></span>
+        <span class="total-price" id="grand-total">฿0.00</span>
+    </div>
+    <button class="checkout-btn" id="checkout-btn">ดำเนินการต่อ</button>
+</div>
+    </main>
+
+    <script>
+        // 1. ประกาศตัวแปรส่วนลดไว้ด้านนอกสุด (เพื่อให้ทุกฟังก์ชันดึงไปใช้ได้)
+        let currentDiscountRate = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+            updateCartCount();
+        });
+
+        function formatCurrency(number) {
+            return number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function renderCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const wrapper = document.getElementById('cart-items-wrapper');
+            const emptyMsg = document.getElementById('empty-cart-msg');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            if (!wrapper) return;
+
+            wrapper.innerHTML = '';
+
+            if (cart.length === 0) {
+                emptyMsg.style.display = 'block';
+                checkoutBtn.style.backgroundColor = '#ccc';
+                checkoutBtn.style.cursor = 'not-allowed';
+                checkoutBtn.disabled = true;
+                updateTotals(0);
+                return;
+            }
+
+            emptyMsg.style.display = 'none';
+            checkoutBtn.style.backgroundColor = '#008cff';
+            checkoutBtn.style.cursor = 'pointer';
+            checkoutBtn.disabled = false;
+
+            let grandTotal = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.qty;
+                grandTotal += itemTotal;
+
+                const itemHTML = `
+                    <div class="cart-item" style="margin-bottom: 15px;">
+                        <div class="item-image">
+                            <img src="${item.img}" alt="${item.name}">
+                        </div>
+                        <div class="item-details">
+                            <p class="item-name">${item.name}</p>
+                        </div>
+                        <div class="item-actions">
+                            <div class="price-container">
+                                <span class="current-price">฿${formatCurrency(item.price)}</span>
+                                ${item.oldPrice ? `<span class="old-price">฿${formatCurrency(item.oldPrice)}</span>` : ''}
+                            </div>
+                            <div class="control-group">
+                                <div class="qty-control">
+                                    <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                                    <input type="text" value="${item.qty}" class="qty-input" readonly>
+                                    <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                                </div>
+                                <button class="del-btn" onclick="removeItem(${index})"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                wrapper.innerHTML += itemHTML;
+            });
+
+            // ส่งราคาสุทธิไปให้ updateTotals คำนวณ
+            updateTotals(grandTotal);
+        }
+
+        function changeQty(index, delta) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart[index]) {
+                cart[index].qty += delta;
+                if (cart[index].qty < 1) cart[index].qty = 1;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+                updateCartCount();
+            }
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCountEl = document.getElementById('cart-count');
+            if (cartCountEl) {
+                const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+                if (totalQty > 0) {
+                    cartCountEl.textContent = totalQty;
+                    cartCountEl.style.display = 'inline-block';
+                } else {
+                    cartCountEl.style.display = 'none';
+                }
+            }
+        }
+
+        // 2. ฟังก์ชันตรวจสอบโค้ดส่วนลด
+        function applyDiscount() {
+            const codeInput = document.getElementById('discount-code').value.trim().toUpperCase();
+            const msgEl = document.getElementById('discount-msg');
+
+            if (codeInput === 'IT02') {
+                currentDiscountRate = 0.15; // ลด 15%
+                msgEl.textContent = 'ใช้งานโค้ดส่วนลด 15% สำเร็จ!';
+                msgEl.style.color = 'green';
+                msgEl.style.display = 'block';
+            } else if (codeInput === '') {
+                currentDiscountRate = 0;
+                msgEl.style.display = 'none';
+            } else {
+                currentDiscountRate = 0;
+                msgEl.textContent = 'โค้ดส่วนลดไม่ถูกต้อง หรือหมดอายุ';
+                msgEl.style.color = 'red';
+                msgEl.style.display = 'block';
+            }
+            
+            // สั่งให้วาดตะกร้าใหม่เพื่อหักลบราคา
+            renderCart();
+        }
+
+      function updateTotals(totalAmount) {
+            // 1. คำนวณตัวเลขทั้งหมด
+            const discountValue = totalAmount * currentDiscountRate; // จำนวนเงินที่ลด
+            const finalTotal = totalAmount - discountValue; // ยอดรวมสุทธิ
+            const subTotal = (finalTotal * 100) / 107; // ก่อน VAT
+            const vat = finalTotal - subTotal; // ภาษี
+
+            // 2. แสดงยอดรวมสินค้า (ราคาเต็มก่อนลด)
+            const originalTotalEl = document.getElementById('original-total');
+            if(originalTotalEl) {
+                originalTotalEl.textContent = '฿' + formatCurrency(totalAmount);
+            }
+
+            // 3. จัดการแสดงผลบรรทัดส่วนลด
+            const discountRow = document.getElementById('discount-row');
+            const discountAmountEl = document.getElementById('discount-amount');
+            
+            if (currentDiscountRate > 0 && discountRow && discountAmountEl) {
+                discountRow.style.display = 'flex';
+                discountAmountEl.textContent = '-฿' + formatCurrency(discountValue);
+            } else if (discountRow) {
+                discountRow.style.display = 'none';
+            }
+
+            // 4. แสดงผลยอดต่างๆ (ก่อนภาษี, VAT, ยอดสุทธิ)
+            const subTotalEl = document.getElementById('sub-total');
+            const vatTotalEl = document.getElementById('vat-total');
+            const grandTotalEl = document.getElementById('grand-total');
+
+            if(subTotalEl) subTotalEl.textContent = '฿' + formatCurrency(subTotal);
+            if(vatTotalEl) vatTotalEl.textContent = '฿' + formatCurrency(vat);
+            if(grandTotalEl) grandTotalEl.textContent = '฿' + formatCurrency(finalTotal);
+        }
+    </script>
+</body>
+
+</html>

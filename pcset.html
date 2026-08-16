@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- เปลี่ยน title ให้ตรงกับหน้าเว็บ -->
+    <title>ITStore - คอมพิวเตอร์เซต</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- ดึงฟอนต์สวยๆ จาก Google Fonts มาใช้ -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+
+
+
+    <style>
+        /* รีเซ็ตและตั้งค่าพื้นฐาน */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ส่วนโครงร่างหลัก */
+        .pc-set-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        /* แต่ละแถว (Row) ประกอบด้วย แบนเนอร์ซ้าย + สินค้าขวา */
+        .category-row {
+            display: flex;
+            gap: 60px;
+            /* ปรับระยะห่างระหว่างรูปซ้ายกับกล่องขวาอย่างพอดี */
+            align-items: stretch;
+            /* เพิ่มบรรทัดนี้เพื่อดึงกล่องไปทางซ้าย */
+            margin-right: -20px;
+        }
+
+        /* ลายกากบาท (Wireframe X) สำหรับพื้นที่ใส่รูป */
+        .wireframe-box {
+            border: 1px solid #666;
+            background:
+                linear-gradient(to bottom right, transparent calc(50% - 0.5px), #999 calc(50%), transparent calc(50% + 0.5px)),
+                linear-gradient(to top right, transparent calc(50% - 0.5px), #999 calc(50%), transparent calc(50% + 0.5px));
+            background-color: #fafafa;
+        }
+
+        /* 1. แบนเนอร์แนวตั้งด้านซ้าย */
+        .side-banner {
+            flex: 0 0 250px;
+            min-height: 400px;
+            border-radius: 24px;
+            overflow: hidden;
+            /* ตัดขอบรูปภาพให้โค้งมนตามกล่อง */
+
+            /* เพิ่มบรรทัดนี้เพื่อดึงกล่องไปทางซ้าย */
+            margin-left: -15px;
+        }
+
+        .brand-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 24px;
+            display: block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* บังคับกล่องใส่สินค้าให้กางเต็มพื้นที่ที่เหลือ และแบ่ง 4 ช่อง */
+        .products-container {
+            flex: 1;
+            /* ดันให้กรอบขยายไปทางขวาเต็มพื้นที่ */
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            /* บังคับ 4 คอลัมน์เท่าๆ กัน */
+            gap: 16px;
+            width: 100%;
+        }
+
+        /* บังคับการ์ดสินค้าแต่ละชิ้นให้กางเต็มช่อง */
+        .product-card1 {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            /* === ให้เพิ่มโค้ดด้านล่างนี้เข้าไปครับ === */
+            border: 1px solid #71befd;
+            /* เส้นขอบสีเทาอ่อน */
+            border-radius: 20px;
+            /* ทำให้มุมกรอบมีความโค้งมน */
+            box-shadow: 0 20px 90px rgb(209, 246, 255);
+            /* เพิ่มเงาบางๆ ให้กล่องดูเด้งขึ้นมา */
+            padding: 10px;
+            /* เพิ่มระยะห่างด้านในไม่ให้รูปกับข้อความชิดขอบเกินไป */
+            background-color: #ffffff;
+            /* ใส่พื้นหลังสีขาวให้กล่องทึบแสง */
+            /* ==================================== */
+
+        }
+
+        .product-card2 {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            /* === ให้เพิ่มโค้ดด้านล่างนี้เข้าไปครับ === */
+            border: 1px solid #fd7171;
+            /* เส้นขอบสีเทาอ่อน */
+            border-radius: 20px;
+            /* ทำให้มุมกรอบมีความโค้งมน */
+            box-shadow: 0 20px 90px rgb(255, 226, 209);
+            /* เพิ่มเงาบางๆ ให้กล่องดูเด้งขึ้นมา */
+            padding: 10px;
+            /* เพิ่มระยะห่างด้านในไม่ให้รูปกับข้อความชิดขอบเกินไป */
+            background-color: #ffffff;
+            /* ใส่พื้นหลังสีขาวให้กล่องทึบแสง */
+            /* ==================================== */
+
+        }
+
+        /* ป้องกันไม่ให้แถว INTEL กับ AMD ไหลมาชนกันในบรรทัดเดียว */
+        .category-row {
+            display: flex;
+            gap: 80px;
+            /* เพิ่มตัวเลขตรงนี้ให้มากขึ้น */
+            align-items: stretch;
+            margin-right: -20px;
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            /* ปรับจาก 3/4 เป็น 1/1 เพื่อให้กรอบเป็นสี่เหลี่ยมจัตุรัสพอดีกับรูป */
+            object-fit: contain;
+            /* ใช้ contain เพื่อให้รูปแสดงครบทุกส่วนโดยไม่ถูกตัดขอบ */
+            border-radius: 12px;
+            display: block;
+            background-color: #f8f9fa;
+            /* เพิ่มสีพื้นหลังอ่อนๆ เผื่อกรณีรูปมีขอบใสหรือโหลดไม่ขึ้น */
+        }
+
+        /* สไตล์สำหรับข้อมูลสินค้า */
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            /* คำสั่งนี้จะดันให้กล่องข้อความขยายเต็มพื้นที่ */
+            padding-top: 10px;
+            /* เว้นระยะจากรูปภาพเล็กน้อย */
+        }
+
+        .product-desc {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            margin: 0;
+
+            /* คำสั่งบังคับให้แสดงแค่ 3 บรรทัด แล้วใส่ ... */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
+
+        /* สเปคย่อย (CPU / VGA) */
+        .product-specs {
+            font-size: 12px;
+            color: #666;
+            margin-top: -5px;
+            margin-bottom: 16px;
+        }
+
+        /* กล่องจัดเรียงราคา */
+       /* ขยับราคาขึ้นโดยการลด margin-top */
+.product-price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 10px; /* ลดจาก 30px เป็น 10px เพื่อให้ขยับขึ้น */
+    margin-bottom: 15px; /* เพิ่มระยะห่างด้านล่างก่อนถึงปุ่ม */
+}
+
+/* สไตล์สำหรับปุ่มซื้อ (ดีไซน์คล้ายหน้าแรก แต่เป็นตะกร้าและไม่มี Flash sale) */
+.buy-btn-custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #008cff; /* สีฟ้าตามธีมเว็บ */
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    gap: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: auto; /* ดันปุ่มให้อยู่ชิดขอบล่างของกล่องเสมอ */
+    border: none;
+    cursor: pointer;
+}
+
+.buy-btn-custom:hover {
+    background-color: #0073d1;
+    transform: translateY(-2px);
+    
+}
+
+/* สไตล์สำหรับปุ่มซื้อเฉพาะแบรนด์ AMD (สีส้มเข้ม) */
+.buy-btn-amd {
+    background-color: #d84315; /* สีส้มเข้ม */
+}
+
+.buy-btn-amd:hover {
+    background-color: #bf360c; /* สีส้มที่เข้มขึ้นเมื่อเอาเมาส์ชี้ */
+}
+.buy-btn-custom svg {
+    margin-bottom: 2px;
+}
+
+        /* ราคาโปรโมชั่น (สีแดง) */
+        .price-new {
+            color: #d82c2c;
+            /* สีแดงตามแบบ */
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* ราคาเต็ม (สีเทา ขีดฆ่า) */
+        .price-old {
+            color: #999;
+            font-size: 12px;
+            text-decoration: line-through;
+        }
+
+
+
+
+
+
+
+
+
+        /* Responsive สำหรับหน้าจอมือถือ/แท็บเล็ต */
+        @media (max-width: 992px) {
+            .category-row {
+                flex-direction: column;
+            }
+
+            .side-banner {
+                width: 100%;
+                min-height: 200px;
+                flex: none;
+            }
+
+            .products-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- 1. แถบสีฟ้าด้านบน (Topbar) -->
+    <div class="topbar" style="position: relative;">
+        <!-- โลโก้ -->
+        <div class="text-logo">ITS</div>
+
+        <!-- ช่องค้นหา -->
+        <div class="search-container">
+            <input type="text" class="input-search" placeholder="ค้นหาสินค้าที่นี่...">
+            <button class="button-search-mini">ค้นหา</button>
+        </div>
+
+        <!-- กลุ่มปุ่มด้านขวา (ตะกร้าสินค้า + เข้าสู่ระบบ) -->
+        <div class="user-actions">
+            <a href="cart.html" class="cart-icon-btn"
+                style="position: relative; text-decoration: none; color: inherit;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <!-- วงกลมแดงแจ้งเตือนจำนวนสินค้า -->
+                <span id="cart-count"
+                    style="position: absolute; top: -8px; right: -8px; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; display: none;">0</span>
+            </a>
+            <button class="login-btn">เข้าสู่ระบบ</button>
+        </div>
+    </div>
+
+    <!-- 2. แถบเมนูด้านล่าง (Topbar 1) -->
+    <div class="topbar1">
+        <!-- ส่วนที่ 1: ฝั่งซ้าย (ปุ่มหมวดหมู่สินค้า) -->
+        <div class="menu-left">
+            <div class="button-menu">หมวดหมู่สินค้า</div>
+        </div>
+
+        <!-- ส่วนที่ 2: ตรงกลาง (เมนูหลัก) -->
+        <div class="menu-center">
+            <nav class="nav-links">
+                <a href="index.html">หน้าแรก</a>
+                <a href="pcset.html">คอมพิวเตอร์เซต</a>
+                <a href="products.html">สินค้า</a>
+            </nav>
+        </div>
+
+        <!-- ส่วนที่ 3: ฝั่งขวา (เมนูติดต่อ/เกี่ยวกับ) -->
+        <div class="menu-right">
+            <nav class="nav-links">
+                <a href="#">ติดต่อเรา</a>
+                <a href="#">เกี่ยวกับเรา</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 3. ส่วนเนื้อหาหลักและแบนเนอร์ (ให้อยู่ตรงกลางจอ) -->
+    <div class="content-wrapper">
+        <div class="banner-container">
+            <!-- รูปภาพแบนเนอร์ -->
+            <div class="banner-track">
+                <!-- รูปที่ 1 -->
+                <div class="banner-slide">
+                    <img src="photo/proter/m1.png"
+                        alt="โปรโมชั่นคอมเซ็ตลดราคา 1">
+                </div>
+                <!-- รูปที่ 2 -->
+                <div class="banner-slide">
+                   <img src="photo/proter/m2.png"
+                        alt="โปรโมชั่นคอมเซ็ตลดราคา 2">
+                </div>
+                <!-- รูปที่ 3 -->
+                <div class="banner-slide">
+                    <img src="photo/proter/m3.png"
+                        alt="โปรโมชั่นคอมเซ็ตลดราคา 3">
+                </div>
+            </div>
+
+            <!-- ปุ่มเลื่อนซ้าย-ขวา -->
+            <button class="banner-btn prev-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6" />
+                </svg>
+            </button>
+            <button class="banner-btn next-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
+            </button>
+
+            <!-- จุดไข่ปลาด้านล่าง (Dots) -->
+            <div class="banner-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- 🌟 โครงสร้างสำหรับส่วนคอมพิวเตอร์เซตใหม่ที่กำลังจะสร้าง (ใส่เนื้อหาเพิ่มเติมด้านล่างนี้ได้เลย) 🌟 -->
+        <div class="pc-set-section">
+            <!-- โค้ดดีไซน์ใหม่สำหรับหน้าคอมพิวเตอร์เซตจะอยู่ตรงนี้ -->
+        </div>
+
+    </div>
+
+
+
+
+    <div class="pc-set-section">
+
+        <!-- ================= แถวที่ 1 (INTEL) ================= -->
+        <div class="category-row">
+            <!-- ซ้าย: แบนเนอร์หมวดหมู่ -->
+            <div class="side-banner">
+                <img src="photo/INTEL.png" alt="Intel Comset Poster" class="brand-poster">
+            </div>
+
+            <!-- ขวา: กรอบใส่สินค้า 4 ชิ้น -->
+            <div class="products-container">
+
+                <!-- สินค้าที่ 1 -->
+                <div class="product-card1">
+                    <img src="photo/intel1.jpg" alt="คอมพิวเตอร์เซต INTEL 1" class="product-img">
+                    <div class="product-info">
+                        <p class="product-desc">AUG26INT-D5-001 INTEL I5-14400 4.7GHz 10C/16T / H610M / ONBOARD / 16GB
+                            DDR5 5600MHz / M.2 1TB / 550W (80+SILVER) / HS</p>
+                        <!-- เพิ่มสเปคและราคาตรงนี้ -->
+                        <p class="product-specs">CPU : INTEL I5-14400 <br>VGA : ONBOARD</br></p>
+                        <div class="product-price">
+                            <span class="price-new">฿25,990.00</span>
+                            <span class="price-old">฿29,490.00</span>
+                        </div>
+                        <a href="javascript:void(0);" 
+           onclick="buyNowAndRedirect('AUG26INT-D5-001 INTEL I5-14400 4.7GHz 10C/16T / H610M / ONBOARD / 16GB DDR5 5600MHz / M.2 1TB / 550W (80+SILVER)', 25990, 29490, 'photo/intel1.jpg')" 
+           class="buy-btn-custom">
+            <!-- ไอคอนรูปตะกร้า -->
+           <!-- นำโค้ดนี้ไปวางแทนที่ -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+            <span>ซื้อเลย</span>
+        </a>
+
+                    </div>
+                </div>
+
+                <!-- สินค้าที่ 2 -->
+                <div class="product-card1">
+                    <img src="photo/intel2.jpg" alt="คอมพิวเตอร์เซต INTEL 2" class="product-img">
+                    <div class="product-info">
+                        <p class="product-desc">AUG26INT-D5-002 INTEL I5-14400 4.7GHz 10C/16T / H610M / ONBOARD / 32GB
+                            DDR5 5600MHz / M.2 1TB / 550W (80+SILVER) / HS</p>
+                        <!-- เพิ่มสเปคและราคาตรงนี้ -->
+                        <p class="product-specs">CPU : INTEL I5-14400 <br>VGA : ONBOARD</br></p>
+                        <div class="product-price">
+                            <span class="price-new">฿33,490.00</span>
+                            <span class="price-old">฿37,990.00</span>
+                        </div>
+                        <a href="javascript:void(0);" 
+           onclick="buyNowAndRedirect('AUG26INT-D5-002 INTEL I5-14400 4.7GHz 10C/16T / H610M / ONBOARD / 32GB DDR5 5600MHz / M.2 1TB / 550W (80+SILVER)', 33490, 37900, 'photo/intel2.jpg')" 
+           class="buy-btn-custom">
+            <!-- ไอคอนรูปตะกร้า -->
+            <!-- นำโค้ดนี้ไปวางแทนที่ -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+            <span>ซื้อเลย</span>
+        </a>
+                    </div>
+                </div>
+
+                <!-- สินค้าที่ 3 -->
+                <div class="product-card1">
+                    <img src="photo/intel3.jpg" alt="คอมพิวเตอร์เซต INTEL 3" class="product-img">
+                    <div class="product-info">
+                        <p class="product-desc">AUG26INT-D5-003 INTEL I5-14400 4.7GHz 10C/16T / B760M / ONBOARD / 16GB
+                            DDR5 5600MHz / M.2 1TB / 550W (80+SILVER) / HS</p>
+                        <!-- เพิ่มสเปคและราคาตรงนี้ -->
+                        <p class="product-specs">CPU : INTEL I5-14400 <br>VGA : ONBOARD</br></p>
+                        <div class="product-price">
+                            <span class="price-new">฿26,490.00</span>
+                            <span class="price-old">฿29,990.00</span>
+                        </div>
+                        <a href="javascript:void(0);" 
+           onclick="buyNowAndRedirect('AUG26INT-D5-003 INTEL I5-14400 4.7GHz 10C/16T / B760M / ONBOARD / 16GB DDR5 5600MHz / M.2 1TB / 550W (80+SILVER)' , 26490, 29990, 'photo/intel3.jpg')" 
+           class="buy-btn-custom">
+            <!-- ไอคอนรูปตะกร้า -->
+            <!-- นำโค้ดนี้ไปวางแทนที่ -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+            <span>ซื้อเลย</span>
+        </a>
+                    </div>
+                </div>
+
+                <!-- สินค้าที่ 4 -->
+                <div class="product-card1">
+                    <img src="photo/intel4.jpg" alt="คอมพิวเตอร์เซต INTEL 4" class="product-img">
+                    <div class="product-info">
+                        <p class="product-desc">AUG26INT-D5-004 INTEL I5-14400 4.7GHz 10C/16T / B760M / ONBOARD / 32GB
+                            DDR5 5600MHz / M.2 1TB / 550W (80+SILVER) / HS</p>
+                        <!-- เพิ่มสเปคและราคาตรงนี้ -->
+                        <p class="product-specs">CPU : INTEL I5-14400 <br>VGA : ONBOARD</br></p>
+                        <div class="product-price">
+                            <span class="price-new">฿33,990.00</span>
+                            <span class="price-old">฿38,390.00</span>
+                        </div>
+                        <a href="javascript:void(0);" 
+           onclick="buyNowAndRedirect('AUG26INT-D5-004 INTEL I5-14400 4.7GHz 10C/16T / B760M / ONBOARD / 32GB DDR5 5600MHz / M.2 1TB / 550W (80+SILVER)', 33990, 38390, 'photo/intel4.jpg')" 
+           class="buy-btn-custom">
+            <!-- ไอคอนรูปตะกร้า -->
+           <!-- นำโค้ดนี้ไปวางแทนที่ -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+            <span>ซื้อเลย</span>
+        </a>
+                    </div>
+                </div>
+            </div> <!-- 🚨 เพิ่ม </div> ตัวนี้เข้าไป! เพื่อปิดกล่อง category-row ของ INTEL 🚨 -->
+        </div>
+
+        <!-- ================= แถวที่ 2 (AMD) ================= -->
+        <div class="category-row">
+            <!-- ซ้าย: แบนเนอร์หมวดหมู่ -->
+            <div class="side-banner">
+                <img src="photo/AMD.png" alt="AMD Comset Poster" class="brand-poster">
+            </div>
+
+            <!-- ขวา: กรอบใส่สินค้า 4 ชิ้น -->
+            <div class="products-container">
+
+                <!-- สินค้าที่ 1 -->
+                <div class="product-card2">
+                    <img src="photo/amd1.jpg" alt="คอมพิวเตอร์เซต AMD 1" class="product-img">
+                    <div class="product-info">
+                        <p class="product-desc">AUG26AMD-D5-001 AMD RYZEN 5 7500F 5.0GHz 6C/12T / B650M / RX 6600 8GB /
+                            16GB DDR5 5600MHz / M.2 1TB / 650W (80+BRONZE) / HS</p>
+                        <p class="product-specs">CPU : AMD RYZEN 5 7500F <br>VGA : ONBOARD</br></p>
+                        <div class="product-price">
+                            <span class="price-new">฿24,990.00</span>
+                            <span class="price-old">฿27,990.00</span>
+                        </div>
+                        <a href="javascript:void(0);" 
+           onclick="buyNowAndRedirect('AUG26AMD-D5-001 AMD RYZEN 5 7500F 5.0GHz 6C/12T / B650M / RX 6600 8GB / 16GB DDR5 5600MHz / M.2 1TB / 650W (80+BRONZE)', 24990, 27990, 'photo/amd1.jpg')" 
+           class="buy-btn-custom buy-btn-amd">
+            <!-- ไอคอนรูปตะกร้า -->
+            <!-- นำโค้ดนี้ไปวางแทนที่ -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+            <span>ซื้อเลย</span>
+        </a>
+                    </div>
+                </div>
+
+                <!-- สินค้าที่ 2 -->
+                <div class="product-card2">
+                    <img src="photo/amd2.jpg" alt="คอมพิวเตอร์เซต AMD 2" class="product-img">
+                    <div class="product-info">
+                        <p class="product-desc">AUG26AMD-D5-002 AMD RYZEN 5 7600X 5.3GHz 6C/12T / B650M / RTX 4060 8GB /
+                            32GB DDR5 5600MHz / M.2 1TB / 650W (80+BRONZE) / HS</p>
+                        <p class="product-specs">CPU : AMD RYZEN 5 7600X <br>VGA : ONBOARD</br> </p>
+                        <div class="product-price">
+                            <span class="price-new">฿31,590.00</span>
+                            <span class="price-old">฿35,990.00</span>
+                        </div>
+                        <a href="javascript:void(0);" 
+           onclick="buyNowAndRedirect('AUG26AMD-D5-002 AMD RYZEN 5 7600X 5.3GHz 6C/12T / B650M / RTX 4060 8GB / 32GB DDR5 5600MHz / M.2 1TB / 650W (80+BRONZE)', 31590, 35990, 'photo/amd2.jpg')" 
+           class="buy-btn-custom buy-btn-amd">
+            <!-- ไอคอนรูปตะกร้า -->
+            <!-- นำโค้ดนี้ไปวางแทนที่ -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+            <span>ซื้อเลย</span>
+        </a>
+                    </div>
+                </div>
+
+                <!-- สินค้าที่ 3 -->
+                <div class="product-card2">
+                    <img src="photo/amd3.jpg" alt="คอมพิวเตอร์เซต AMD 3" class="product-img">
+                    <div class="product-info">
+                        <p class="product-desc">AUG26AMD-D5-003 AMD RYZEN 7 7700X 5.4GHz 8C/16T / B650M / RTX 4060 Ti
+                            8GB / 32GB DDR5 5600MHz / M.2 1TB / 750W (80+BRONZE) / HS</p>
+                        <p class="product-specs">CPU : AMD RYZEN 7 7700X <br>VGA : ONBOARD</br></p>
+                        <div class="product-price">
+                            <span class="price-new">฿39,990.00</span>
+                            <span class="price-old">฿44,990.00</span>
+                        </div>
+                        <a href="javascript:void(0);" 
+           onclick="buyNowAndRedirect('AUG26AMD-D5-003 AMD RYZEN 7 7700X 5.4GHz 8C/16T / B650M / RTX 4060 Ti 8GB / 32GB DDR5 5600MHz / M.2 1TB / 750W (80+BRONZE)', 39990, 44990, 'photo/amd3.jpg')" 
+           class="buy-btn-custom buy-btn-amd">
+            <!-- ไอคอนรูปตะกร้า -->
+            <!-- นำโค้ดนี้ไปวางแทนที่ -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+            <span>ซื้อเลย</span>
+        </a>
+                    </div>
+                </div>
+
+                <!-- สินค้าที่ 4 -->
+                <div class="product-card2">
+                    <img src="photo/amd4.jpg" alt="คอมพิวเตอร์เซต AMD 4" class="product-img">
+                    <div class="product-info">
+                        <p class="product-desc">AUG26AMD-D5-004 AMD RYZEN 7 7800X3D 5.0GHz 8C/16T / B650M / RTX 4070
+                            SUPER 12GB / 32GB DDR5 6000MHz / M.2 1TB / 750W (80+GOLD) / HS</p>
+                        <p class="product-specs">CPU : AMD RYZEN 7 7800X3D<br>VGA : ONBOARD</br></p>
+                        <div class="product-price">
+                            <span class="price-new">฿54,990.00</span>
+                            <span class="price-old">฿59,990.00</span>
+                        </div>
+                        <a href="javascript:void(0);" 
+           onclick="buyNowAndRedirect('AUG26AMD-D5-004 AMD RYZEN 7 7800X3D 5.0GHz 8C/16T / B650M / RTX 4070 SUPER 12GB / 32GB DDR5 6000MHz / M.2 1TB / 750W (80+GOLD)', 54990, 59990, 'photo/amd4.jpg')" 
+           class="buy-btn-custom buy-btn-amd">
+            <!-- ไอคอนรูปตะกร้า -->
+            <!-- นำโค้ดนี้ไปวางแทนที่ -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+            <span>ซื้อเลย</span>
+        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- สคริปต์ควบคุมการทำงานของแบนเนอร์ -->
+        <script>
+            // ดึงองค์ประกอบต่างๆ จาก HTML มาใช้งาน
+            const track = document.querySelector('.banner-track');
+            const nextBtn = document.querySelector('.next-btn');
+            const prevBtn = document.querySelector('.prev-btn');
+            const dots = document.querySelectorAll('.dot');
+            const slideCount = document.querySelectorAll('.banner-slide').length;
+
+            let currentIndex = 0;
+            let autoSlideInterval;
+
+            // ฟังก์ชันหลักสำหรับเลื่อนแบนเนอร์ไปตาม Index ที่กำหนด
+            function goToSlide(index) {
+                if (index < 0) {
+                    currentIndex = slideCount - 1;
+                }
+                else if (index >= slideCount) {
+                    currentIndex = 0;
+                }
+                else {
+                    currentIndex = index;
+                }
+
+                // สั่งให้รางเลื่อนขยับไปทางซ้าย (ทีละ 100% ของความกว้างกล่อง)
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+                // อัปเดตสีของจุด Dots ด้านล่าง
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[currentIndex].classList.add('active');
+            }
+
+            // ฟังก์ชันเลื่อนไปรูปถัดไป
+            function nextSlide() {
+                goToSlide(currentIndex + 1);
+                resetTimer();
+            }
+
+            // ฟังก์ชันเลื่อนกลับไปรูปก่อนหน้า
+            function prevSlide() {
+                goToSlide(currentIndex - 1);
+                resetTimer();
+            }
+
+            // ดักจับการคลิกที่ปุ่มลูกศร
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // ทำให้กดที่จุด Dots แล้วเลื่อนไปยังรูปนั้นๆ ได้
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                    resetTimer();
+                });
+            });
+
+            // ฟังก์ชันเริ่มจับเวลาเลื่อนอัตโนมัติ 
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(() => {
+                    goToSlide(currentIndex + 1);
+                }, 4000);
+            }
+
+            // ฟังก์ชันรีเซ็ตเวลา 
+            function resetTimer() {
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
+            }
+
+            // สั่งให้ระบบเลื่อนอัตโนมัติเริ่มทำงานทันทีที่โหลดเว็บเสร็จ
+            startAutoSlide();
+
+
+            // ฟังก์ชันอัพเดทตัวเลขตะกร้าสินค้า
+            function updateCartCount() {
+                // ดึงข้อมูลจาก localStorage
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const cartCountEl = document.getElementById('cart-count');
+
+                if (cartCountEl) {
+                    // รวมจำนวนสินค้า (qty) ทั้งหมด
+                    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+
+                    if (totalQty > 0) {
+                        cartCountEl.textContent = totalQty;
+                        cartCountEl.style.display = 'inline-block'; // แสดงวงกลมสีแดงถ้ามีสินค้า
+                    } else {
+                        cartCountEl.style.display = 'none'; // ซ่อนวงกลมถ้าไม่มีสินค้า
+                    }
+                }
+            }
+
+            // สั่งให้ฟังก์ชันทำงานทันทีที่โหลดหน้าเว็บเสร็จ
+            document.addEventListener('DOMContentLoaded', updateCartCount);
+
+
+            // ฟังก์ชันกดปุ่มซื้อแล้วเด้งไปหน้าตะกร้า
+// ฟังก์ชันกดปุ่มซื้อ (แก้ไขให้อยู่หน้าเดิม)
+function buyNowAndRedirect(name, price, oldPrice, img) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    let existingItem = cart.find(item => item.name === name);
+    if (existingItem) {
+        existingItem.qty += 1;
+    } else {
+        cart.push({ name, price, oldPrice, img, qty: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // อัปเดตตัวเลขแจ้งเตือนที่ไอคอนตะกร้าด้านบนทันที
+    updateCartCount();
+
+    // แจ้งเตือนผู้ใช้ (คุณสามารถลบบรรทัดนี้ออกได้ถ้าไม่อยากให้มี popup เด้งกวนใจ)
+    alert('เพิ่มสินค้าลงตะกร้าเรียบร้อยแล้ว!');
+
+    // ❌ ลบคำสั่ง window.location.href = 'cart.html'; ออกแล้วเพื่อให้อยู่หน้าเดิม
+}
+        </script>
+</body>
+
+</html>

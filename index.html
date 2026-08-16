@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITStore - ร้านขายอุปกรณ์คอมพิวเตอร์</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- ดึงฟอนต์สวยๆ จาก Google Fonts มาใช้ -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- 1. แถบสีฟ้าด้านบน (Topbar) -->
+    <div class="topbar" style="position: relative;">
+        <!-- โลโก้ -->
+        <div class="text-logo">ITS</div>
+
+        <!-- ช่องค้นหา -->
+        <div class="search-container">
+            <input type="text" class="input-search" placeholder="ค้นหาสินค้าที่นี่...">
+            <button class="button-search-mini">ค้นหา</button>
+        </div>
+
+        <!-- กลุ่มปุ่มด้านขวา (ตะกร้าสินค้า + เข้าสู่ระบบ) -->
+        <div class="user-actions">
+            <a href="cart.html" class="cart-icon-btn"
+                style="position: relative; text-decoration: none; color: inherit;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <!-- วงกลมแดงแจ้งเตือนจำนวนสินค้า -->
+                <span id="cart-count"
+                    style="position: absolute; top: -8px; right: -8px; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; font-weight: bold; display: none;">0</span>
+            </a>
+            <button class="login-btn">เข้าสู่ระบบ</button>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- 2. แถบเมนูด้านล่าง (Topbar 1) -->
+    <div class="topbar1">
+
+        <!-- ส่วนที่ 1: ฝั่งซ้าย (ปุ่มหมวดหมู่สินค้า) -->
+        <div class="menu-left">
+            <div class="button-menu">หมวดหมู่สินค้า</div>
+        </div>
+
+        <!-- ส่วนที่ 2: ตรงกลาง (เมนูหลัก) -->
+        <div class="menu-center">
+            <nav class="nav-links">
+                <a href="index.html">หน้าแรก</a>
+                <a href="pcset.html">คอมพิวเตอร์เซต</a>
+                <a href="products.html">สินค้า</a>
+            </nav>
+        </div>
+
+        <!-- ส่วนที่ 3: ฝั่งขวา (เมนูติดต่อ/เกี่ยวกับ) -->
+        <div class="menu-right">
+            <nav class="nav-links">
+                <a href="#">ติดต่อเรา</a>
+                <a href="#">เกี่ยวกับเรา</a>
+            </nav>
+        </div>
+
+    </div>
+
+    <!-- 3. ส่วนเนื้อหาหลักและแบนเนอร์ (ให้อยู่ตรงกลางจอ) -->
+    <div class="content-wrapper">
+        <div class="banner-container">
+            <!-- รูปภาพแบนเนอร์ -->
+            <div class="banner-track">
+                <!-- รูปที่ 1 -->
+                <div class="banner-slide">
+                    <img src="photo/proter/m1.png"
+                        alt="Gaming Setup" alt="โปรโมชั่นคอมเซ็ตลดราคา 1">
+                </div>
+                <!-- รูปที่ 2 -->
+                <div class="banner-slide">
+                    <img src="photo/proter/m2.png"
+                        alt="โปรโมชั่นคอมเซ็ตลดราคา 2">
+                </div>
+                <!-- รูปที่ 3 -->
+                <div class="banner-slide">
+                    <img src="photo/proter/m3.png"
+                        alt="โปรโมชั่นคอมเซ็ตลดราคา 3">
+                </div>
+            </div>
+
+            <!-- ปุ่มเลื่อนซ้าย-ขวา -->
+            <button class="banner-btn prev-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6" />
+                </svg>
+            </button>
+            <button class="banner-btn next-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
+            </button>
+
+            <!-- จุดไข่ปลาด้านล่าง (Dots) -->
+            <div class="banner-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- 4. ส่วน Special deals -->
+        <div class="special-deals-section">
+            <!-- หัวข้อ Section -->
+            <div class="section-header">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                        fill="currentColor" stroke="none">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                    Special deals
+                </h2>
+                <!-- 🌟 เวลานับถอยหลัง -->
+                <div class="flash-sale-timer">
+                    <span class="timer-text">จบโปรโมชั่นใน</span>
+                    <div class="time-box hours">02</div><span class="time-colon">:</span>
+                    <div class="time-box minutes">15</div><span class="time-colon">:</span>
+                    <div class="time-box seconds">45</div>
+                </div>
+            </div>
+
+            <!-- กล่องครอบรายการสินค้าขอบมน -->
+            <div class="deals-container">
+
+                <!-- 📦 การ์ดที่ 1: CPU -->
+                <div class="product-card">
+                    <img src="photo/5.jpg" alt="CPU Intel" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-name">CPU Intel Core i7-13700K 16 Cores 24 Threads</h3>
+                        <div class="product-price">
+                            <span class="old-price">฿ 16,500</span>
+                            <span class="new-price">฿ 14,990</span>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0);"
+                        onclick="addToCart('CPU Intel Core i7-13700K 16 Cores 24 Threads', 14990, 16500, 'photo/5.jpg')"
+                        class="buy-btn">
+                        <div class="btn-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="none">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                            </svg>
+                        </div>
+                        <div class="btn-text"><span class="text-main">ซื้อเลย</span><span class="text-sub">flash
+                                sale</span></div>
+                    </a>
+                </div>
+
+                <!-- 📦 การ์ดที่ 2: การ์ดจอ (GPU) -->
+                <div class="product-card">
+                    <img src="photo/1.jpg" alt="VGA" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-name">VGA ASUS ROG Strix GeForce RTX 4070 Ti</h3>
+                        <div class="product-price">
+                            <span class="old-price">฿ 35,900</span>
+                            <span class="new-price">฿ 32,500</span>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0);"
+                        onclick="addToCart('VGA ASUS ROG Strix GeForce RTX 4070 Ti', 32500, 35900, 'photo/1.jpg')"
+                        class="buy-btn">
+                        <div class="btn-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="none">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                            </svg>
+                        </div>
+                        <div class="btn-text"><span class="text-main">ซื้อเลย</span><span class="text-sub">flash
+                                sale</span></div>
+                    </a>
+                </div>
+
+                <!-- 📦 การ์ดที่ 3: แรม (RAM) -->
+                <div class="product-card">
+                    <img src="photo/2.jpg" alt="RAM" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-name">RAM CORSAIR Dominator Platinum RGB 32GB (16GBx2) DDR5</h3>
+                        <div class="product-price">
+                            <span class="old-price">฿ 7,200</span>
+                            <span class="new-price">฿ 5,990</span>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0);"
+                        onclick="addToCart('RAM CORSAIR Dominator Platinum RGB 32GB (16GBx2) DDR5', 5990, 7200, 'photo/2.jpg')"
+                        class="buy-btn">
+                        <div class="btn-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="none">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                            </svg>
+                        </div>
+                        <div class="btn-text"><span class="text-main">ซื้อเลย</span><span class="text-sub">flash
+                                sale</span></div>
+                    </a>
+                </div>
+
+                <!-- 📦 การ์ดที่ 4: จอมอนิเตอร์ -->
+                <div class="product-card">
+                    <img src="photo/3.jpg" alt="Monitor" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-name">Monitor LG UltraGear 27" IPS 165Hz 1ms</h3>
+                        <div class="product-price">
+                            <span class="old-price">฿ 12,900</span>
+                            <span class="new-price">฿ 9,490</span>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0);"
+                        onclick="addToCart('Monitor LG UltraGear 27&quot; IPS 165Hz 1ms', 9490, 12900, 'photo/3.jpg')"
+                        class="buy-btn">
+                        <div class="btn-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="none">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                            </svg>
+                        </div>
+                        <div class="btn-text"><span class="text-main">ซื้อเลย</span><span class="text-sub">flash
+                                sale</span></div>
+                    </a>
+                </div>
+
+                <!-- 📦 การ์ดที่ 5: SSD -->
+                <div class="product-card">
+                    <img src="photo/4.jpg" alt="SSD" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-name">SSD Samsung 990 PRO 1TB PCIe 4.0 NVMe M.2</h3>
+                        <div class="product-price">
+                            <span class="old-price">฿ 5,500</span>
+                            <span class="new-price">฿ 4,290</span>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0);"
+                        onclick="addToCart('SSD Samsung 990 PRO 1TB PCIe 4.0 NVMe M.2', 4290, 5500, 'photo/4.jpg')"
+                        class="buy-btn">
+                        <div class="btn-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="none">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                            </svg>
+                        </div>
+                        <div class="btn-text"><span class="text-main">ซื้อเลย</span><span class="text-sub">flash
+                                sale</span></div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            // ดึงองค์ประกอบต่างๆ จาก HTML มาใช้งาน
+            const track = document.querySelector('.banner-track');
+            const nextBtn = document.querySelector('.next-btn');
+            const prevBtn = document.querySelector('.prev-btn');
+            const dots = document.querySelectorAll('.dot');
+            const slideCount = document.querySelectorAll('.banner-slide').length;
+
+            let currentIndex = 0; // ตัวแปรเก็บตำแหน่งรูปปัจจุบัน (เริ่มที่ 0 คือรูปแรก)
+            let autoSlideInterval; // ตัวแปรสำหรับจัดการเวลาเลื่อนอัตโนมัติ
+
+            // ฟังก์ชันหลักสำหรับเลื่อนแบนเนอร์ไปตาม Index ที่กำหนด
+            function goToSlide(index) {
+                // เช็คว่าถ้าเลื่อนไปซ้ายสุดจนทะลุ ให้วนกลับไปรูปสุดท้าย
+                if (index < 0) {
+                    currentIndex = slideCount - 1;
+                }
+                // เช็คว่าถ้าเลื่อนขวาสุดจนทะลุ ให้วนกลับมารูปแรก
+                else if (index >= slideCount) {
+                    currentIndex = 0;
+                }
+                else {
+                    currentIndex = index;
+                }
+
+                // สั่งให้รางเลื่อนขยับไปทางซ้าย (ทีละ 100% ของความกว้างกล่อง)
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+                // อัปเดตสีของจุด Dots ด้านล่าง
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[currentIndex].classList.add('active');
+            }
+
+            // ฟังก์ชันเลื่อนไปรูปถัดไป
+            function nextSlide() {
+                goToSlide(currentIndex + 1);
+                resetTimer(); // รีเซ็ตเวลาอัตโนมัติเมื่อมีการกดเปลี่ยนเอง
+            }
+
+            // ฟังก์ชันเลื่อนกลับไปรูปก่อนหน้า
+            function prevSlide() {
+                goToSlide(currentIndex - 1);
+                resetTimer();
+            }
+
+            // ดักจับการคลิกที่ปุ่มลูกศร
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // ทำให้กดที่จุด Dots แล้วเลื่อนไปยังรูปนั้นๆ ได้ด้วย
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                    resetTimer();
+                });
+            });
+
+            // ฟังก์ชันเริ่มจับเวลาเลื่อนอัตโนมัติ 
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(() => {
+                    goToSlide(currentIndex + 1);
+                }, 4000); // 4000 มิลลิวินาที = 4 วินาที
+            }
+
+            // ฟังก์ชันรีเซ็ตเวลา (ป้องกันไม่ให้มันเลื่อนซ้อนกันตอนที่เราเพิ่งกดคลิกไป)
+            function resetTimer() {
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
+            }
+
+            // สั่งให้ระบบเลื่อนอัตโนมัติเริ่มทำงานทันทีที่โหลดเว็บเสร็จ
+            startAutoSlide();
+
+            // ฟังก์ชันนับเวลาถอยหลัง Flash Sale
+            function startFlashSaleTimer() {
+                // ตั้งเวลาเริ่มต้น: 2 ชั่วโมง 15 นาที 45 วินาที
+                let totalSeconds = (2 * 3600) + (15 * 60) + 45;
+
+                const hoursEl = document.querySelector('.time-box.hours');
+                const minutesEl = document.querySelector('.time-box.minutes');
+                const secondsEl = document.querySelector('.time-box.seconds');
+
+                // ถ้าไม่เจอกล่องเวลา ให้หยุดการทำงาน
+                if (!hoursEl || !minutesEl || !secondsEl) return;
+
+                setInterval(() => {
+                    // คำนวณชั่วโมง นาที วินาที
+                    let h = Math.floor(totalSeconds / 3600);
+                    let m = Math.floor((totalSeconds % 3600) / 60);
+                    let s = totalSeconds % 60;
+
+                    // เติมเลข 0 ด้านหน้าถ้าค่าน้อยกว่า 10 (เช่น 9 เป็น 09)
+                    hoursEl.textContent = h < 10 ? '0' + h : h;
+                    minutesEl.textContent = m < 10 ? '0' + m : m;
+                    secondsEl.textContent = s < 10 ? '0' + s : s;
+
+                    // ลดเวลาลง 1 วินาที
+                    if (totalSeconds > 0) {
+                        totalSeconds--;
+                    }
+                }, 1000); // 1000 มิลลิวินาที = 1 วินาที
+            }
+
+            // เริ่มนับเวลาเมื่อโหลดหน้าเว็บเสร็จ
+            window.addEventListener('DOMContentLoaded', startFlashSaleTimer);
+
+            // ฟังก์ชันเพิ่มสินค้าลงตะกร้า 
+            function addToCart(name, price, oldPrice, img) {
+                // ดึงข้อมูลตะกร้าเดิม หรือสร้างอาเรย์ว่างถ้ายังไม่มี
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // ตรวจสอบว่ามีสินค้านี้ในตะกร้าแล้วหรือยัง
+                let existingItem = cart.find(item => item.name === name);
+                if (existingItem) {
+                    existingItem.qty += 1; // เพิ่มจำนวนถ้ามีแล้ว
+                } else {
+                    cart.push({ name, price, oldPrice, img, qty: 1 }); // เพิ่มสินค้าใหม่
+                }
+
+                // บันทึกลง localStorage แล้วย้ายไปหน้า cart.html
+                localStorage.setItem('cart', JSON.stringify(cart));
+               
+
+                updateCartCount(); // ให้อัปเดตตัวเลขที่มุมขวาบนอย่างเดียว
+    alert('เพิ่มสินค้าลงตะกร้าเรียบร้อยแล้ว!'); // ใส่แจ้งเตือนเบาๆ ให้ลูกค้าทราบแทน
+            }
+
+
+
+
+            // ฟังก์ชันอัพเดทตัวเลขตะกร้าสินค้า
+            function updateCartCount() {
+                // ดึงข้อมูลจาก localStorage
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const cartCountEl = document.getElementById('cart-count');
+
+                if (cartCountEl) {
+                    // รวมจำนวนสินค้า (qty) ทั้งหมด
+                    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+
+                    if (totalQty > 0) {
+                        cartCountEl.textContent = totalQty;
+                        cartCountEl.style.display = 'inline-block'; // แสดงวงกลมสีแดงถ้ามีสินค้า
+                    } else {
+                        cartCountEl.style.display = 'none'; // ซ่อนวงกลมถ้าไม่มีสินค้า
+                    }
+                }
+            }
+
+            // สั่งให้ฟังก์ชันทำงานทันทีที่โหลดหน้าเว็บเสร็จ
+            document.addEventListener('DOMContentLoaded', updateCartCount);
+
+
+
+
+        </script>
+    </div>
+</body>
+
+</html>

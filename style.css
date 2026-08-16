@@ -1,0 +1,712 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    /* พื้นหลังโทนเข้มทันสมัย */
+    color: #ffffff;
+}
+
+
+/*------------------------------- topbar ----------------------- */
+
+.topbar {
+    background-color: #008cff;
+    /* สีพื้นหลังของ topbar */
+    color: #ffffff;
+    /* สีข้อความใน topbar */
+    padding: 50px 20px;
+    /* ระยะห่างภายใน topbar */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+/* ปรับปรุง topbar1 เล็กน้อยเพื่อให้ความสูงพอดี */
+/*------------------------------- Topbar 1 (แถบเมนูด้านล่าง) ----------------------- */
+
+.topbar1 {
+    background-color: #ffffff;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    /* กระจายทั้ง 3 ส่วนให้ออกห่างจากกัน */
+    align-items: center;
+    border-bottom: 2px solid #cecece;
+}
+
+/* 🌟 ฝั่งซ้าย: ปุ่มหมวดหมู่ */
+.menu-left {
+    flex: 1;
+    /* กำหนดให้กินพื้นที่ 1 ส่วน เพื่อถ่วงน้ำหนักกับฝั่งขวา */
+    display: flex;
+    justify-content: flex-start;
+    /* จัดให้อยู่ชิดซ้าย */
+}
+
+/* 🌟 ตรงกลาง: หน้าแรก, คอมพิวเตอร์เซต, จัดสเปคคอม */
+.menu-center {
+    flex: 2;
+    /* ให้พื้นที่ส่วนกลางเยอะกว่าด้านข้าง */
+    display: flex;
+    justify-content: center;
+    /* บังคับให้เมนูอยู่กึ่งกลางหน้าจอเสมอ */
+}
+
+/* 🌟 ฝั่งขวา: ติดต่อเรา, เกี่ยวกับเรา */
+.menu-right {
+    flex: 1;
+    /* กำหนดให้กินพื้นที่ 1 ส่วน เพื่อถ่วงน้ำหนักกับฝั่งซ้าย */
+    display: flex;
+    justify-content: flex-end;
+    /* จัดให้อยู่ชิดขวาสุด */
+}
+
+/* การตั้งค่า nav-links และ button-menu ยังใช้ของเดิมได้เลยครับ */
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333333;
+    font-size: 16px;
+    font-weight: 400;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #008cff;
+}
+
+/* ปุ่มหมวดหมู่สินค้า */
+.button-menu {
+    position: relative;
+    top: 50%;
+    /* ดันลงมาครึ่งนึงของ topbar1 */
+    transform: translateY(-15%);
+    /* จัดให้อยู่กึ่งกลางแนวตั้งของ topbar1 */
+    width: 200px;
+    height: 40px;
+    background-color: #ddf0ff;
+    color: #3aa6ff;
+    border: 2px solid #3aa6ff;
+    border-radius: 50px;
+    padding: 0 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-menu:hover {
+    background-color: #3aa6ff;
+    color: #ffffff;
+}
+
+/* ตกแต่งตัวหนังสือของเมนูต่างๆ (หน้าแรก, ติดต่อเรา ฯลฯ) */
+.nav-links {
+    display: flex;
+    gap: 30px;
+    /* ระยะห่างระหว่างคำว่า หน้าแรก กับ คอมพิวเตอร์เซต */
+    margin-left: 10px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    /* เอาเส้นใต้ลิงก์ออก */
+    color: #333333;
+    /* สีตัวอักษร */
+    font-size: 16px;
+    font-weight: 400;
+    /* ความหนาตัวอักษรปกติ */
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #008cff;
+    /* เปลี่ยนเป็นสีฟ้าตอนเอาเมาส์ชี้ */
+}
+
+/*------------------------------- โลโก้ตัวหนังสือ----------------------- */
+
+.text-logo {
+    position: absolute;
+    top: 5px;
+    /* ระยะห่างจากด้านบน */
+    left: 70px;
+    /* ระยะห่างจากด้านซ้าย */
+    font-size: 60px;
+    /* ขนาดตัวอักษรของโลโก้ */
+    font-weight: bold;
+    /* น้ำหนักตัวอักษรของโลโก้ */
+    color: #ffffff;
+    /* สีของโลโก้ */
+    text-decoration: none;
+    /* ไม่ให้มีเส้นใต้ */
+}
+
+
+/*------------------------------- ช่องค้นหาและปุ่มค้นหา----------------------- */
+
+/* กล่องครอบช่องค้นหาและปุ่ม */
+.search-container {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* ช่วยให้อยู่กึ่งกลางหน้าจอเป๊ะๆ */
+    width: 500px;
+    height: 40px;
+}
+
+/* ช่องพิมพ์ค้นหาสินค้า (ปุ่มใหญ่ของคุณบิ๊ก) */
+.input-search {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    color: #333333;
+    /* เปลี่ยนสีตัวอักษรตอนพิมพ์ให้เข้มขึ้นจะได้มองเห็นชัด */
+    padding: 5px 80px 5px 20px;
+    /* เว้นที่ขวาไว้ 80px ไม่ให้ตัวหนังสือทับปุ่ม */
+    border: 2px solid #a5d4ff;
+    border-radius: 50px;
+    outline: none;
+    /* เอาเส้นขอบสีดำตอนคลิกออก */
+}
+
+/* ปุ่มกดค้นหาเล็ก (ที่ซ้อนอยู่ข้างใน) */
+.button-search-mini {
+    position: absolute;
+    right: 5px;
+    /* ดันให้ชิดขวาของช่องพิมพ์ */
+    top: 5px;
+    /* ดันให้ชิดบนของช่องพิมพ์ */
+    width: 70px;
+    height: 30px;
+    background-color: #0084ff;
+    color: #ffffff;
+    border: none;
+    /* เอาเส้นขอบออกให้ดูเนียน */
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+    /* ให้มีเอฟเฟกต์นุ่มๆ ตอนชี้ */
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ชี้ปุ่มค้นหา */
+.button-search-mini:hover {
+    background-color: #006bce;
+    /* สีเข้มขึ้นนิดนึงตอนชี้ */
+}
+
+.button-menu {
+    position: absolute;
+    top: 11.5%;
+    left: 4%;
+    width: 200px;
+    height: 40px;
+    background-color: #ddf0ff;
+    color: #3aa6ff;
+    border: 2px solid #3aa6ff;
+    border-radius: 50px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    /* ให้มีเอฟเฟกต์นุ่มๆ ตอนชี้ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+/*------------------------------- กลุ่มปุ่มด้านขวา (ตะกร้า & เข้าสู่ระบบ) ----------------------- */
+
+.user-actions {
+    position: absolute;
+    top: 25px;
+    /* ปรับให้อยู่ระดับเดียวกับช่องค้นหา */
+    right: 40px;
+    /* ระยะห่างจากขอบจอขวา */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* ระยะห่างระหว่างปุ่มตะกร้ากับปุ่มเข้าสู่ระบบ */
+}
+
+/* ปุ่มตะกร้าสินค้า (วงกลม) */
+.cart-icon-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    border: 2px solid #ffffff;
+    /* เส้นขอบสีขาว */
+    border-radius: 50%;
+    /* ทำให้เป็นวงกลม */
+    color: #ffffff;
+    /* สีไอคอน */
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* เอฟเฟกต์ตอนชี้เมาส์ที่ตะกร้า */
+.cart-icon-btn:hover {
+    background-color: #ffffff;
+    color: #008cff;
+    /* เปลี่ยนไอคอนเป็นสีฟ้า */
+}
+
+/* ปุ่มเข้าสู่ระบบ */
+.login-btn {
+    background-color: transparent;
+    /* พื้นหลังโปร่งใส */
+    color: #ffffff;
+    /* ตัวหนังสือสีขาว */
+    border: 2px solid #ffffff;
+    /* เส้นขอบสีขาว */
+    border-radius: 50px;
+    /* มุมโค้งมนทรงแคปซูล */
+    padding: 8px 25px;
+    /* ขนาดความกว้าง-สูงของปุ่ม */
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* เอฟเฟกต์ตอนชี้เมาส์ที่ปุ่มเข้าสู่ระบบ */
+.login-btn:hover {
+    background-color: #ffffff;
+    color: #008cff;
+    /* เปลี่ยนตัวหนังสือเป็นสีฟ้า */
+}
+
+
+/*------------------------------- แบนเนอร์โปรโมชั่น ----------------------- */
+
+.banner-container {
+    position: relative;
+    max-width: 1200px;
+    /* ขนาดความกว้างของแบนเนอร์ (ปรับลด-เพิ่มได้) */
+    margin: 40px auto;
+    /* เว้นระยะจากด้านบน 40px และจัดให้อยู่กึ่งกลางหน้าจอ */
+    border-radius: 30px;
+    /* มุมโค้งมนตามแบบในรูป */
+    overflow: hidden;
+    /* ป้องกันไม่ให้รูปภาพโผล่ทะลุมุมโค้งออกมา */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    /* เพิ่มเงาบางๆ ให้ดูมีมิติเล็กน้อย */
+    border: 1px solid #cecece;
+    /* ขอบจางๆ แบบเดียวกับดีไซน์ */
+}
+
+/* ส่วนของรูปภาพแบนเนอร์ */
+.banner-slide img {
+    width: 100%;
+    height: 450px;
+    /* กำหนดความสูงของแบนเนอร์ */
+    object-fit: cover;
+    /* จัดภาพให้พอดีกล่องโดยไม่เสียสัดส่วน */
+    display: block;
+}
+
+/* ปุ่มเลื่อนซ้าย-ขวา (ทรงแคปซูลแนวตั้ง) */
+.banner-btn {
+    position: absolute;
+    top: 50%;
+    /* ดันลงมาครึ่งนึง */
+    transform: translateY(-50%);
+    /* จัดให้อยู่กึ่งกลางแนวตั้งเป๊ะๆ */
+    width: 45px;
+    /* ความกว้างปุ่ม */
+    height: 90px;
+    /* ความสูงปุ่มให้เป็นทรงยาวๆ */
+    background-color: hsla(0, 0%, 10%, 0.7);
+    /* พื้นหลังสีขาวโปร่งแสง */
+    border: 1px solid #b7dffa;
+    /* เส้นขอบสีเดียวกับปุ่มหมวดหมู่ */
+    border-radius: 50px;
+    /* ทำให้โค้งมนเป็นแคปซูล */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333333;
+    transition: 0.3s;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ชี้ปุ่มซ้าย-ขวา */
+.banner-btn:hover {
+    background-color: #f5f5f5;
+    color: #008cff;
+    /* เปลี่ยนสีลูกศรเป็นสีฟ้า */
+    border-color: #008cff;
+}
+
+/* ดันปุ่มซ้ายให้ชิดซ้าย */
+.prev-btn {
+    left: 20px;
+}
+
+/* ดันปุ่มขวาให้ชิดขวา */
+.next-btn {
+    right: 20px;
+}
+
+/* จุดบอกตำแหน่งด้านล่าง (Dots) */
+.banner-dots {
+    position: absolute;
+    bottom: 25px;
+    /* ดันขึ้นจากขอบล่าง 25px */
+    left: 50%;
+    transform: translateX(-50%);
+    /* จัดให้อยู่กึ่งกลางแนวนอนเป๊ะๆ */
+    display: flex;
+    gap: 12px;
+    /* ระยะห่างระหว่างจุด */
+}
+
+.dot {
+    width: 16px;
+    height: 16px;
+    background-color: #999999;
+    /* สีจุดที่ไม่ได้เลือก (สีเทา) */
+    border-radius: 50%;
+    /* ทำให้เป็นวงกลม */
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* จุดที่กำลังแสดงผลอยู่ (สีเข้ม) */
+.dot.active {
+    background-color: #333333;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ชี้ที่จุด */
+.dot:hover {
+    background-color: #555555;
+}
+
+
+
+
+/*------------------------------- โครงสร้างจัดวางเนื้อหาหลัก ----------------------- */
+
+/* กล่องครอบเนื้อหาทั้งหมด ช่วยให้ส่วนต่อๆ ไปอยู่กึ่งกลางและจัดง่ายขึ้น */
+.content-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* ให้เนื้อหาเรียงจากบนลงล่าง */
+    align-items: center;
+    /* บังคับให้ทุกอย่างตรงกลาง 100% */
+    padding: 40px 20px;
+    /* เว้นระยะด้านบน-ล่าง 40px และด้านข้าง 20px */
+}
+
+/*------------------------------- แบนเนอร์โปรโมชั่น ----------------------- */
+
+/*------------------------------- แบนเนอร์โปรโมชั่น ----------------------- */
+
+.banner-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 30px;
+    overflow: hidden;
+
+    /* 🌟 จุดที่ปรับปรุง: เพิ่มเงาสีฟ้าให้ฟุ้งและกระจายตัวมากขึ้น (ซ้อนเงา 2 ชั้น) */
+    box-shadow: 0 20px 60px rgba(0, 140, 255, 0.35),
+        0 0 25px rgba(0, 140, 255, 0.2);
+
+    border: 1px solid #b3d9ff;
+    /* ปรับสีขอบให้สว่างขึ้นอีกนิดให้กลืนกับเงา */
+}
+
+/* โค้ดส่วนอื่นๆ ของแบนเนอร์ (รูปภาพ, ปุ่ม, จุด Dots) ยังคงใช้โค้ดเดิมได้เลยครับ */
+
+
+
+
+/*------------------------------- แบนเนอร์โปรโมชั่น ----------------------- */
+
+.banner-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 140, 255, 0.35),
+        0 0 25px rgba(0, 140, 255, 0.2);
+    border: 1px solid #b3d9ff;
+}
+
+/* 🌟 โค้ดใหม่: กล่องรางเลื่อนสำหรับจัดเรียงรูปภาพแนวนอน */
+.banner-track {
+    display: flex;
+    /* ทำให้กล่องรูปเรียงต่อกันเป็นแนวนอน */
+    width: 100%;
+    transition: transform 0.5s ease-in-out;
+    /* เตรียมพร้อมสำหรับเอฟเฟกต์เวลาเลื่อนรูปภาพ */
+}
+
+/* 🌟 โค้ดใหม่: กล่องใส่รูปแต่ละรูป */
+.banner-slide {
+    min-width: 100%;
+    /* บังคับให้แต่ละรูปกว้างเท่าหน้าต่างแบนเนอร์เป๊ะๆ */
+}
+
+/* ส่วนของรูปภาพแบนเนอร์ (ปรับเล็กน้อย) */
+.banner-slide img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    display: block;
+}
+
+
+
+
+/*------------------------------- Special deals Section ----------------------- */
+
+.special-deals-section {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 60px;
+    /* ระยะห่างจากแบนเนอร์ด้านบน */
+    color: #333333;
+}
+
+/* ส่วนหัวข้อ (สายฟ้า + ตัวหนังสือ + เส้น) */
+/* 🌟 3. กล่องคลุมตัวนับเวลา (เรียงแนวนอน) */
+.flash-sale-timer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.timer-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ff5e00;
+    margin-right: 5px;
+}
+
+.time-box {
+    background-color: #ff0000;
+    /* พื้นหลังกล่องเวลาสีแดง */
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 6px;
+    min-width: 35px;
+    text-align: center;
+    line-height: 1;
+}
+
+.time-colon {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff0000;
+}
+
+/* 🌟 ตกแต่งข้อมูลสินค้าแทนเส้นโครงร่าง (ชื่อ และ ราคา) */
+.product-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333333;
+    line-height: 1.4;
+    height: 42px;
+    /* บังคับความสูงให้แสดงแค่ 2 บรรทัด */
+    overflow: hidden;
+    display: -webkit-box;
+
+    -webkit-box-orient: vertical;
+    margin-bottom: 5px;
+}
+
+/* กล่องครอบราคา */
+.product-price {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* ระยะห่างระหว่างราคาเก่ากับใหม่ */
+}
+
+/* ราคาเก่า (ตรงวงสีดำ) */
+.old-price {
+    font-size: 13px;
+    color: #999999;
+    text-decoration: line-through;
+    /* ขีดฆ่าราคา */
+    font-weight: 400;
+}
+
+/* ราคาใหม่ลดแล้ว (ตรงวงสีแดง) */
+.new-price {
+    font-size: 18px;
+    color: #ff0000;
+    font-weight: 800;
+    /* หนาพิเศษ */
+}
+
+
+/* 🌟 1. กล่องคลุมส่วนหัว (บังคับให้อยู่บรรทัดเดียวกัน) */
+.section-header {
+    display: flex;
+    flex-direction: row;
+    /* บังคับให้ไอเทมข้างในเรียงต่อกันเป็นแนวนอน */
+    align-items: center;
+    justify-content: flex-start;
+    /* จัดให้ทุกอย่างชิดซ้าย */
+    gap: 20px;
+    /* ระยะห่างระหว่าง Special deals กับตัวนับเวลา */
+    margin-bottom: 25px;
+}
+
+/* 🌟 2. ตัวหนังสือหัวข้อ (ให้ขนาดพอดีกับข้อความ ไม่ยืดเต็มบรรทัด) */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #ff0000;
+    margin: 0;
+    /* ลบระยะห่างส่วนเกินออก */
+}
+
+.header-line {
+    flex-grow: 1;
+    /* ยืดเส้นให้เต็มพื้นที่ที่เหลือทางขวา */
+    height: 2px;
+    background-color: #cecece;
+    margin-left: 30px;
+}
+
+/* กล่องครอบสินค้า (ดีไซน์ขอบมนตามรูป) */
+.deals-container {
+    display: flex;
+    justify-content: space-between;
+    /* กระจายการ์ด 5 ใบให้เว้นช่องว่างเท่าๆ กัน */
+    gap: 20px;
+    padding: 30px;
+    border: 1px solid #cecece;
+    border-radius: 40px;
+    /* ขอบมนของกล่องใหญ่ */
+    background-color: #ffffff;
+}
+
+/* การ์ดสินค้าแต่ละใบ */
+.product-card {
+    flex: 1;
+    /* ให้การ์ดทุกใบกว้างเท่ากัน */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* รูปภาพสินค้า */
+.product-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    /* บังคับให้เป็นสี่เหลี่ยมจัตุรัสเป๊ะๆ */
+    object-fit: cover;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+}
+
+/* โครงร่างตัวหนังสือ (เส้นๆ) */
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.skeleton-line {
+    height: 8px;
+    background-color: #cecece;
+    border-radius: 10px;
+}
+
+/* 🌟 2. ปรับขอบปุ่มซื้อเลย ให้เป็นโทนส้มให้เข้ากับด้านใน */
+.buy-btn {
+    display: flex;
+    align-items: center;
+    border: 2px solid #FF4500;
+    /* เปลี่ยนสีเส้นขอบเป็นส้มเข้ม */
+    border-radius: 50px;
+    overflow: hidden;
+    text-decoration: none;
+    margin-top: auto;
+    transition: 0.3s;
+}
+
+/* 🌟 3. กล่องไอคอนสายฟ้า (พื้นหลังส้มเข้ม + สายฟ้าสีขาว) */
+.btn-icon {
+    background-color: #FF4500;
+    /* พื้นหลังสีส้มเข้ม */
+    color: #ffffff;
+    /* สายฟ้าสีขาว */
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+/* 🌟 4. กล่องข้อความ (พื้นหลังส้มอ่อน + ตัวหนังสือสีขาว) */
+.btn-text {
+    background-color: #FF9900;
+    /* พื้นหลังสีส้มอ่อน */
+    color: #ffffff;
+    /* ข้อความ "ซื้อเลย flash sale" สีขาว */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 5px 0;
+    line-height: 1.1;
+    transition: 0.3s;
+    /* เพิ่มลูกเล่นตอนเอาเมาส์ชี้ */
+}
+
+.text-main {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.text-sub {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* 🌟 แถม: ปรับเอฟเฟกต์ตอนชี้เมาส์ให้เป็นโทนส้มที่เข้มขึ้นนิดนึง จะได้ดูมีมิติครับ */
+.buy-btn:hover {
+    border-color: #cc4a00;
+}
+
+.buy-btn:hover .btn-icon {
+    background-color: #cc4a00;
+}
+
+.buy-btn:hover .btn-text {
+    background-color: #ff8000;
+}
